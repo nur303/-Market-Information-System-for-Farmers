@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Market Price for Crops - AgriConnect</title>
+    <link rel="stylesheet" href="../../css/common/global.css">
+    <link rel="stylesheet" href="../../css/common/layout.css">
+    <link rel="stylesheet" href="../../css/market-price-for-crops.css">
+</head>
+<body>
+    <div class="dashboard-container">
+        <nav class="sidebar">
+            <div class="logo">
+                <h2>AgriConnect</h2>
+            </div>
+            <ul class="nav-links">
+                <li>
+                    <a href="farmer-dashboard.html">
+                        <span class="icon">📊</span>
+                        Dashboard
+                    </a>
+                </li>
+                <li class="active">
+                    <a href="market-price-for-crops.html">
+                        <span class="icon">💰</span>
+                        Market Prices
+                    </a>
+                </li>
+            </ul>
+            <div class="logout">
+                <a href="../auth/login.html" id="logoutBtn">
+                    <span class="icon">🚪</span>
+                    Logout
+                </a>
+            </div>
+        </nav>
+
+        <main class="main-content">
+            <header class="dashboard-header">
+                <h1>Market Prices for Crops</h1>
+                <div class="user-info">
+                    <span class="user-id">Analyst ID: <span id="analystId">A123</span></span>
+                    <span class="user-name">Welcome, <span id="analystName">John Doe</span></span>
+                </div>
+            </header>
+
+            <div class="price-table-container">
+                <table class="price-table">
+                    <thead>
+                        <tr>
+                            <th>Agent ID</th>
+                            <th>Date</th>
+                            <th>Analyst ID</th>
+                            <th>Crop ID</th>
+                            <th>Crop Name</th>
+                            <th>Location</th>
+                            <th>Highest Price (Per Kg/Unit)</th>
+                            <th>Lowest Price (Per Kg/Unit)</th>
+                            <th>Highest Price (Wholesale)</th>
+                            <th>Lowest Price (Wholesale)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>AG001</td>
+                            <td>2024-11-01</td>
+                            <td>A123</td>
+                            <td>CR001</td>
+                            <td>Wheat</td>
+                            <td>California</td>
+                            <td>$2.50</td>
+                            <td>$2.10</td>
+                            <td>$2.20</td>
+                            <td>$1.80</td>
+                        </tr>
+                        <!-- Additional demo rows can be added here -->
+                    </tbody>
+                </table>
+            </div>
+        </main>
+    </div>
+    <script src="../../js/market-price-for-crops.js"></script>
+</body>
+</html>

@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Market Price Analysis - AgriConnect</title>
+    <link rel="stylesheet" href="../../css/common/global.css">
+    <link rel="stylesheet" href="../../css/common/layout.css">
+    <link rel="stylesheet" href="../../css/farmer/market-price.css">
+</head>
+<body>
+    <div class="dashboard-container">
+        <nav class="sidebar">
+            <div class="logo">
+                <h2>AgriConnect</h2>
+            </div>
+            <ul class="nav-links">
+                <li>
+                    <a href="farmer-dashboard.html">
+                        <span class="icon">📊</span>
+                        Dashboard
+                    </a>
+                </li>
+                <li class="active">
+                    <a href="market-price.html">
+                        <span class="icon">💹</span>
+                        Market Price
+                    </a>
+                </li>
+                <li>
+                    <a href="../common/sales-monitoring.html">
+                        <span class="icon">📈</span>
+                        Sales Monitoring
+                    </a>
+                </li>
+            </ul>
+            <div class="logout">
+                <a href="../auth/login.html" id="logoutBtn">
+                    <span class="icon">🚪</span>
+                    Logout
+                </a>
+            </div>
+        </nav>
+
+        <main class="main-content">
+            <header class="dashboard-header">
+                <h1>Market Price Analysis</h1>
+                <div class="analysis-meta">
+                    <span class="meta-item">Analysis Date: <span id="analysisDate"></span></span>
+                    <span class="meta-item">Agent ID: <span id="agentId"></span></span>
+                    <span class="meta-item">Analyst ID: <span id="analystId"></span></span>
+                </div>
+            </header>
+
+            <div class="market-analysis-container">
+                <div class="price-analysis-card">
+                    <h2>Current Market Prices</h2>
+                    <div class="analysis-details">
+                        <div class="detail-item">
+                            <label>Crop Type</label>
+                            <span id="cropType"></span>
+                        </div>
+                        <div class="detail-item">
+                            <label>Crop Name</label>
+                            <span id="cropName"></span>
+                        </div>
+                        <div class="detail-item">
+                            <label>Location</label>
+                            <span id="location"></span>
+                        </div>
+                    </div>
+
+                    <div class="price-grid">
+                        <div class="price-section">
+                            <h3>Market Prices</h3>
+                            <div class="price-details">
+                                <div class="price-item">
+                                    <label>Highest Price per Kg</label>
+                                    <span id="highestPrice"></span>
+                                </div>
+                                <div class="price-item">
+                                    <label>Lowest Price per Kg</label>
+                                    <span id="lowestPrice"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="price-section">
+                            <h3>Wholesaler Prices</h3>
+                            <div class="price-details">
+                                <div class="price-item">
+                                    <label>Highest Wholesaler Price</label>
+                                    <span id="highestWholesalePrice"></span>
+                                </div>
+                                <div class="price-item">
+                                    <label>Lowest Wholesaler Price</label>
+                                    <span id="lowestWholesalePrice"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="demand-forecast-card">
+                    <h2>Demand Forecast Analysis</h2>
+                    <div class="forecast-details">
+                        <div class="forecast-item">
+                            <h3>Current Demand</h3>
+                            <div class="detail-item">
+                                <label>Current Price per Kg/Unit</label>
+                                <span id="currentDemandPrice"></span>
+                            </div>
+                        </div>
+                        
+                        <div class="forecast-item">
+                            <h3>Forecasted Demand</h3>
+                            <div class="forecast-grid">
+                                <div class="detail-item">
+                                    <label>Reason</label>
+                                    <span id="forecastReason"></span>
+                                </div>
+                                <div class="detail-item">
+                                    <label>Location</label>
+                                    <span id="forecastLocation"></span>
+                                </div>
+                                <div class="detail-item">
+                                    <label>Expected Sales Price</label>
+                                    <span id="expectedSalesPrice"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+    <script src="../../js/farmer/market-price.js"></script>
+</body>
+</html>
