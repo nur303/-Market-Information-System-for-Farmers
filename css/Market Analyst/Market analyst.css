@@ -1,0 +1,91 @@
+/* Layout and Sidebar styles are inherited from layout.css */
+
+/* Dashboard Header */
+.dashboard-header {
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.dashboard-header h1 {
+    color: #2e7d32;
+    margin-bottom: 15px;
+}
+
+.user-info {
+    display: flex;
+    gap: 20px;
+}
+
+.user-id, .user-name {
+    background-color: #f1f8e9;
+    padding: 8px 15px;
+    border-radius: 4px;
+    color: #2e7d32;
+}
+
+/* Profile Section */
+.profile-container {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.profile-card {
+    padding: 20px;
+}
+
+.profile-card h2 {
+    color: #2e7d32;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.profile-details {
+    display: grid;
+    gap: 15px;
+}
+
+.detail-item {
+    display: grid;
+    grid-template-columns: 150px 1fr;
+    padding: 10px;
+    background-color: #f1f8e9;
+    border-radius: 4px;
+}
+
+.detail-item label {
+    font-weight: 600;
+    color: #2e7d32;
+}
+
+.detail-item span {
+    color: #333;
+}
+
+/* Card Components */
+.card {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .user-info {
+        flex-direction: column;
+    }
+
+    .detail-item {
+        grid-template-columns: 1fr;
+    }
+
+    .detail-item label {
+        margin-bottom: 4px;
+    }
+}
