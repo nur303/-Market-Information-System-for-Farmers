@@ -1,0 +1,41 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #e8f5e9;
+    margin: 0;
+    padding: 0;
+}
+
+.preharvest-report-container {
+    padding: 20px;
+    max-width: 1000px;
+    margin: 50px auto;
+    background-color: #a5d6a7;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+}
+
+.preharvest-report-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.preharvest-report-table thead {
+    background-color: #2e7d32;
+    color: #fff;
+}
+
+.preharvest-report-table th, 
+.preharvest-report-table td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: center;
+}
+
+.preharvest-report-table tbody tr:nth-child(even) {
+    background-color: #c8e6c9;
+}
+
+.preharvest-report-table tbody tr:hover {
+    background-color: #b9f6ca;
+}
