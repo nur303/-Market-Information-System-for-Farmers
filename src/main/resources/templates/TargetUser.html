@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Target User List</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0-alpha1/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container">
+    <h1 class="my-4">Target Users</h1>
+
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>User ID</th>
+            <th>User Name</th>
+            <th>Area Code</th>
+            <th>Phone Number</th>
+            <th>User Type</th>
+        </tr>
+        </thead>
+        <tbody>
+        <!-- Loop through each user in the list -->
+
+        <tr th:each="user : ${userDataList}">
+            <td th:text="${user.userID}"></td>
+            <td th:text="${user.userName}"></td>
+            <td th:text="${user.areaCode}"></td>
+            <td th:text="${user.phoneNumber}"></td>
+            <td th:text="${user.userType}"></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0-alpha1/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
