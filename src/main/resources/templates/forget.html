@@ -1,21 +1,25 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Reset Password</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0-alpha1/css/bootstrap.min.css">
     <style>
         body {
+<<<<<<< Updated upstream
             font-family: Arial, sans-serif;
             background: url(static/login.jpg) no-repeat center center fixed;
+=======
+            background: url('/images/login.jpg') no-repeat center center fixed;
+>>>>>>> Stashed changes
             background-size: cover;
+            height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
-            margin: 0;
         }
+<<<<<<< Updated upstream
 
         .overlay {
             position: absolute;
@@ -30,11 +34,15 @@
         .wrapper {
             position: relative;
             background: #fff;
+=======
+        .wrapper {
+            background: rgba(255, 255, 255, 0.9);
+>>>>>>> Stashed changes
             padding: 20px;
             border-radius: 10px;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-            width: 100%;
             max-width: 400px;
+<<<<<<< Updated upstream
             text-align: center;
             z-index: 1;
         }
@@ -110,10 +118,14 @@
                 font-size: 12px;
             }
         }
+=======
+            width: 100%;
+        }
+>>>>>>> Stashed changes
     </style>
 </head>
-
 <body>
+<<<<<<< Updated upstream
 <div class="overlay"></div>
 <div class="wrapper">
     <div class="container">
@@ -138,4 +150,34 @@
 </div>
 </body>
 
+=======
+<div class="wrapper">
+    <div class="container">
+
+        <!-- Thymeleaf-friendly title -->
+        <h1 class="mb-3 text-center">Reset Password</h1>
+
+        <!-- Thymeleaf-friendly description -->
+        <p class="text-muted text-center">
+            Enter your email to receive a link to reset your password. Check your inbox and follow the instructions.
+        </p>
+
+        <!-- Use Thymeleaf action attribute for form submission -->
+        <form th:action="@{/reset-password}" method="post">
+            <!-- Input field for email -->
+            <div class="mb-3">
+                <label for="email" class="form-label">Email address</label>
+                <input type="email" id="email" name="email" class="form-control" placeholder="Enter your email" required>
+            </div>
+
+            <!-- Submit button -->
+            <div class="d-grid">
+                <button type="submit" class="btn btn-primary">Send</button>
+            </div>
+        </form>
+    </div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0-alpha1/js/bootstrap.bundle.min.js"></script>
+</body>
+>>>>>>> Stashed changes
 </html>
