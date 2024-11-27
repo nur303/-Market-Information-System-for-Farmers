@@ -2,6 +2,8 @@ package com.example.demo2.farmerconnect;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.Date;
 @Data
