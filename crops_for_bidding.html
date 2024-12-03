@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crop Bidding Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            width: 80%;
+            margin: auto;
+            overflow: hidden;
+        }
+        .header, .footer {
+            background: #333;
+            color: #fff;
+            padding: 10px 0;
+            text-align: center;
+        }
+        .crop-post {
+            background: #fff;
+            margin: 20px 0;
+            padding: 20px;
+            border: 1px solid #ddd;
+        }
+        .crop-post h2 {
+            margin-top: 0;
+        }
+        .crop-post p {
+            margin: 10px 0;
+        }
+        .crop-post .price {
+            font-size: 1.2em;
+            color: #333;
+        }
+        .crop-post .interested {
+            background: #28a745;
+            color: #fff;
+            padding: 10px;
+            text-align: center;
+            cursor: pointer;
+        }
+        .chart-container {
+            margin: 20px 0;
+        }
+        .add-crop-form {
+            background: #fff;
+            padding: 20px;
+            margin: 20px 0;
+            border: 1px solid #ddd;
+        }
+        .add-crop-form input, .add-crop-form button {
+            display: block;
+            width: 100%;
+            margin: 10px 0;
+            padding: 10px;
+        }
+        .chart-options {
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Crop Bidding Page</h1>
+    </div>
+    <div class="container">
+        <div id="crop-posts">
+            <!-- Crop posts will be dynamically added here -->
+        </div>
+        <div class="add-crop-form">
+            <h2>Add New Crop</h2>
+            <input type="text" id="farmer-name" placeholder="Farmer's Name" required>
+            <input type="text" id="crop-name" placeholder="Crop Name" required>
+            <input type="number" id="crop-price" placeholder="Price per kg" required>
+            <button id="add-crop">Add Crop</button>
+        </div>
+        <div class="chart-options">
+            <h2>Price Trends</h2>
+            <label for="trend-type">Select Trend Type:</label>
+            <select id="trend-type">
+                <option value="monthly">Monthly</option>
+                <option value="yearly">Yearly</option>
+            </select>
+        </div>
+        <div class="chart-container">
+            <canvas id="priceChart"></canvas>
+        </div>
+    </div>
+    <div class="footer">
+        <p>&copy; 2023 Crop Bidding Page</p>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        const cropPosts = document.getElementById('crop-posts');
+        const addCropButton = document.getElementById('add-crop');
+        const trendTypeSelect = document.getElementById('trend-type');
+
+        const crops = [
+            { farmer: 'Rahim', crop: 'Rice', price: 10 },
+            { farmer: 'Rahim', crop: 'Potato', price: 5 },
+            { farmer: 'Rahim', crop: 'Onions', price: 8 }
+        ];
+
+        function renderCrops() {
+            cropPosts.innerHTML = '';
+            crops.forEach(crop => {
+                const cropPost = document.createElement('div');
+                cropPost.classList.add('crop-post');
+                cropPost.innerHTML = `
+                    <h2>${crop.farmer}'s Crops</h2>
+                    <p>${crop.crop} - $${crop.price} per kg</p>
+                    <div class="interested">I'm Interested</div>
+                `;
+                cropPost.querySelector('.interested').addEventListener('click', function() {
+                    alert('Thank you for your interest!');
+                });
+                cropPosts.appendChild(cropPost);
+            });
+        }
+
+        addCropButton.addEventListener('click', function() {
+            const farmerName = document.getElementById('farmer-name').value;
+            const cropName = document.getElementById('crop-name').value;
+            const cropPrice = document.getElementById('crop-price').value;
+
+            if (farmerName && cropName && cropPrice) {
+                crops.push({ farmer: farmerName, crop: cropName, price: parseFloat(cropPrice) });
+                renderCrops();
+            }
+        });
+
+        renderCrops();
+
+        const ctx = document.getElementById('priceChart').getContext('2d');
+        let priceChart;
+
+        function renderChart(type) {
+            const monthlyData = {
+                labels: ['Jan 2021', 'Feb 2021', 'Mar 2021', 'Apr 2021', 'May 2021', 'Jun 2021', 'Jul 2021', 'Aug 2021', 'Sep 2021', 'Oct 2021', 'Nov 2021', 'Dec 2021', 'Jan 2022'],
+                datasets: [{
+                    label: 'Rice Price ($ per kg)',
+                    data: [10, 12, 11, 13, 14, 15, 16, 14, 13, 12, 11, 10, 9],
+                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    borderWidth: 1
+                }]
+            };
+
+            const yearlyData = {
+                labels: ['2020', '2021', '2022'],
+                datasets: [{
+                    label: 'Rice Price ($ per kg)',
+                    data: [12, 14, 13],
+                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    borderWidth: 1
+                }]
+            };
+
+            const data = type === 'monthly' ? monthlyData : yearlyData;
+
+            if (priceChart) {
+                priceChart.destroy();
+            }
+
+            priceChart = new Chart(ctx, {
+                type: 'bar',
+                data: data,
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        }
+
+        trendTypeSelect.addEventListener('change', function() {
+            renderChart(this.value);
+        });
+
+        renderChart('monthly');
+    </script>
+</body>
+</html>
