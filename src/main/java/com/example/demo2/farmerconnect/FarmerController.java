@@ -20,9 +20,6 @@ public class FarmerController {
         return "Farmer"; // This is the name of the HTML page that will display the data
     }
 
-    @GetMapping("/analyst")
-    public String getAnalyst() {
-        return "analystDashboard";
-    }
+
 
 }
