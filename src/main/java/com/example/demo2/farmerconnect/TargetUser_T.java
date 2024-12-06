@@ -14,10 +14,6 @@ import java.util.Date;
 public class TargetUser_T {
 
         @Id
-        @GeneratedValue(
-                strategy = GenerationType.IDENTITY
-        )
-
         private String userID;
         private String userName;
         private String areaCode ;
