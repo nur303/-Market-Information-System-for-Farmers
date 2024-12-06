@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pre-Harvest Information</title>
+    <style>
+        :root {
+            --primary-color: #2ecc71;
+            --secondary-color: #27ae60;
+            --light-bg: #f1f2f6;
+            --text-color: #2c3e50;
+            --white: #ffffff;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: var(--light-bg);
+            color: var(--text-color);
+        }
+
+        .container {
+            width: 90%;
+            margin: 20px auto;
+        }
+
+        h1, h2 {
+            color: var(--primary-color);
+            margin-bottom: 20px;
+        }
+
+        /* Table Styling */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 40px;
+            background-color: var(--white);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        th, td {
+            padding: 12px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+
+        th {
+            background-color: var(--light-bg);
+        }
+
+        tr:hover {
+            background-color: #f9f9f9;
+        }
+
+        /* Form Styling */
+        form {
+            background-color: var(--white);
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            margin-bottom: 40px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        button {
+            background-color: var(--primary-color);
+            color: var(--white);
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+
+        button:hover {
+            background-color: var(--secondary-color);
+        }
+
+        /* Crop Report Details Styling */
+        .details-section {
+            background-color: var(--white);
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .details-section p {
+            margin: 8px 0;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Pre-Harvest Information</h1>
+
+        <!-- Crop Report List -->
+        <h2>Crop Report List</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Farmer ID</th>
+                    <th>Crop Name</th>
+                    <th>Stage</th>
+                    <th>Approx. Quantity</th>
+                    <th>Total Cost</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>F001</td>
+                    <td>Wheat</td>
+                    <td>Mid-Growth</td>
+                    <td>1000 kg</td>
+                    <td>$2000</td>
+                    <td><button onclick="viewDetails('F001')">View Details</button></td>
+                </tr>
+                <tr>
+                    <td>F002</td>
+                    <td>Rice</td>
+                    <td>Harvesting</td>
+                    <td>2000 kg</td>
+                    <td>$4000</td>
+                    <td><button onclick="viewDetails('F002')">View Details</button></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!-- Crop Report Form -->
+        <h2>Submit New Crop Report</h2>
+        <form id="cropReportForm">
+            <label for="farmerId">Farmer ID:</label>
+            <input type="text" id="farmerId" name="farmerId" placeholder="Enter Farmer ID" required>
+
+            <label for="cropName">Crop Name:</label>
+            <input type="text" id="cropName" name="cropName" placeholder="Enter Crop Name" required>
+
+            <label for="cropStage">Crop Stage:</label>
+            <select id="cropStage" name="cropStage" required>
+                <option value="Sowing">Sowing</option>
+                <option value="Mid-Growth">Mid-Growth</option>
+                <option value="Harvesting">Harvesting</option>
+            </select>
+
+            <label for="quantity">Approx. Quantity (kg):</label>
+            <input type="number" id="quantity" name="quantity" placeholder="Enter Quantity" required>
+
+            <label for="totalCost">Total Cost ($):</label>
+            <input type="number" id="totalCost" name="totalCost" placeholder="Enter Total Cost" required>
+
+            <button type="submit">Submit Report</button>
+        </form>
+
+        <!-- Crop Report Details -->
+        <h2>Crop Report Details</h2>
+        <div class="details-section" id="cropDetails">
+            <p>Select a crop report to view details.</p>
+        </div>
+    </div>
+
+    <script>
+        // Function to View Details of a Selected Report
+        function viewDetails(farmerId) {
+            const cropDetails = document.getElementById('cropDetails');
+            // Placeholder for dynamic content
+            cropDetails.innerHTML = `
+                <h3>Crop Report for Farmer ID: ${farmerId}</h3>
+                <p><strong>Crop Name:</strong> Wheat</p>
+                <p><strong>Stage:</strong> Mid-Growth</p>
+                <p><strong>Approx. Quantity:</strong> 1000 kg</p>
+                <p><strong>Total Cost:</strong> $2000</p>
+            `;
+        }
+    </script>
+</body>
+</html>

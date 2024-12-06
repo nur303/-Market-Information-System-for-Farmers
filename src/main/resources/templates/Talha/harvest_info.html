@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Harvest Information</title>
+    <style>
+        :root {
+            --primary-color: #2ecc71;
+            --secondary-color: #27ae60;
+            --light-bg: #f1f2f6;
+            --text-color: #2c3e50;
+            --white: #ffffff;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: var(--light-bg);
+            color: var(--text-color);
+        }
+
+        .container {
+            width: 90%;
+            margin: 20px auto;
+        }
+
+        h1, h2 {
+            color: var(--primary-color);
+            margin-bottom: 20px;
+        }
+
+        /* Table Styling */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 40px;
+            background-color: var(--white);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        th, td {
+            padding: 12px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+
+        th {
+            background-color: var(--light-bg);
+        }
+
+        tr:hover {
+            background-color: #f9f9f9;
+        }
+
+        /* Form Styling */
+        form {
+            background-color: var(--white);
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            margin-bottom: 40px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        button {
+            background-color: var(--primary-color);
+            color: var(--white);
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+
+        button:hover {
+            background-color: var(--secondary-color);
+        }
+
+        /* Details Section */
+        .details-section {
+            background-color: var(--white);
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .details-section p {
+            margin: 8px 0;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Harvest Information</h1>
+
+        <!-- Harvest Info List -->
+        <h2>Harvest Info List</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Farmer ID</th>
+                    <th>Crop Name</th>
+                    <th>Harvest Date</th>
+                    <th>Quantity (kg)</th>
+                    <th>Revenue ($)</th>
+                    <th>Harvesting Method</th>
+                    <th>Storage Location</th>
+                    <th>Buyer Name</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>F001</td>
+                    <td>Wheat</td>
+                    <td>2024-01-10</td>
+                    <td>1200</td>
+                    <td>$2400</td>
+                    <td>Manual</td>
+                    <td>Warehouse A</td>
+                    <td>John Buyer</td>
+                    <td><button onclick="viewDetails('F001')">View Details</button></td>
+                </tr>
+                <tr>
+                    <td>F002</td>
+                    <td>Rice</td>
+                    <td>2024-01-15</td>
+                    <td>2000</td>
+                    <td>$4000</td>
+                    <td>Machine</td>
+                    <td>Warehouse B</td>
+                    <td>Jane Buyer</td>
+                    <td><button onclick="viewDetails('F002')">View Details</button></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!-- Harvest Info Form -->
+        <h2>Submit New Harvest Info</h2>
+        <form id="harvestInfoForm">
+            <label for="farmerId">Farmer ID:</label>
+            <input type="text" id="farmerId" name="farmerId" placeholder="Enter Farmer ID" required>
+
+            <label for="cropName">Crop Name:</label>
+            <input type="text" id="cropName" name="cropName" placeholder="Enter Crop Name" required>
+
+            <label for="harvestDate">Harvest Date:</label>
+            <input type="date" id="harvestDate" name="harvestDate" required>
+
+            <label for="quantity">Quantity (kg):</label>
+            <input type="number" id="quantity" name="quantity" placeholder="Enter Quantity" required>
+
+            <label for="revenue">Revenue ($):</label>
+            <input type="number" id="revenue" name="revenue" placeholder="Enter Revenue" required>
+
+            <label for="harvestingMethod">Harvesting Method:</label>
+            <select id="harvestingMethod" name="harvestingMethod" required>
+                <option value="Manual">Manual</option>
+                <option value="Machine">Machine</option>
+            </select>
+
+            <label for="storageLocation">Storage Location:</label>
+            <input type="text" id="storageLocation" name="storageLocation" placeholder="Enter Storage Location" required>
+
+            <label for="buyerName">Buyer Name:</label>
+            <input type="text" id="buyerName" name="buyerName" placeholder="Enter Buyer Name" required>
+
+            <button type="submit">Submit Info</button>
+        </form>
+
+        <!-- Harvest Info Details -->
+        <h2>Harvest Info Details</h2>
+        <div class="details-section" id="harvestDetails">
+            <p>Select a harvest record to view details.</p>
+        </div>
+    </div>
+
+    <script>
+        // Function to View Details of a Selected Record
+        function viewDetails(farmerId) {
+            const harvestDetails = document.getElementById('harvestDetails');
+            // Placeholder for dynamic content
+            harvestDetails.innerHTML = `
+                <h3>Harvest Info for Farmer ID: ${farmerId}</h3>
+                <p><strong>Crop Name:</strong> Wheat</p>
+                <p><strong>Harvest Date:</strong> 2024-01-10</p>
+                <p><strong>Quantity:</strong> 1200 kg</p>
+                <p><strong>Revenue:</strong> $2400</p>
+                <p><strong>Harvesting Method:</strong> Manual</p>
+                <p><strong>Storage Location:</strong> Warehouse A</p>
+                <p><strong>Buyer Name:</strong> John Buyer</p>
+            `;
+        }
+    </script>
+</body>
+</html>
