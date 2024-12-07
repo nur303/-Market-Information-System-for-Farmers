@@ -16,10 +16,10 @@ public class TargetUserDB {
     } catch(
     SQLException ex)
 
-    {
-        throw new RuntimeException(ex);
+        {
+            throw new RuntimeException(ex);
+        }
     }
-}
 
     public void save_targetUser(TargetUser_T targetUser) {
         String sql = "insert  INTO TARGET_USER_T(userid,area_code,phone_number,user_type,user_name) VALUES(?,?,?,?,?)";

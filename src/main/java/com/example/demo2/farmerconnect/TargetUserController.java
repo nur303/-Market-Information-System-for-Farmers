@@ -28,6 +28,7 @@ public class TargetUserController {
 
     @PostMapping("/TargetUser")
     public void addUser(TargetUser_T user){
+
         targetUserService.addUser(user);
     }
 
