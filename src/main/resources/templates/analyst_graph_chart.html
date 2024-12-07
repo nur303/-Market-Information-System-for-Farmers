@@ -5,15 +5,16 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Graph/Chart</title>
   <link rel="stylesheet" href="analyst.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
   <div class="container">
     <!-- Sidebar -->
     <aside class="sidebar">
-      <a href="/analyst_dashboard" >Dashboard</a>
+      <a href="/analyst_dashboard">Dashboard</a>
       <a href="/analyst_market_prices">Market Price for Crops</a>
-      <a href="/analyst_input_market_data"  >Input Market Data</a>
-      <a href="/analyst_graph_chart" class = "active">Graph/Chart</a>
+      <a href="/analyst_advised_rates">Advised Rates</a>
+      <a href="/analyst_graph_chart" class="active">Graph/Chart</a>
       <a href="/analyst_index">Sign Out</a>
     </aside>
     <!-- Main Content -->
@@ -27,16 +28,105 @@
           <option value="location3">Location 3</option>
           <option value="location4">Location 4</option>
         </select>
-        <button class="show-btn">Show</button>
+        <button class="show-btn" onclick="fetchAndRenderData()">Show</button>
       </div>
       <div class="chart-section">
-        <p>Select a location and click "Show" to display the relevant graph or chart.</p>
-        <!-- Placeholder for charts -->
-        <div id="chart-placeholder">
-          <p>No data to display. Please select a location.</p>
-        </div>
+        <canvas id="barChart" width="400" height="200"></canvas>
       </div>
     </main>
   </div>
+
+  <script>
+    // Function to fetch data from the database and render the bar chart
+    async function fetchAndRenderData() {
+      const location = document.getElementById('location').value;
+
+      // Simulate fetching data from the database (replace this with actual API call or database query)
+      const data = await fetchDataFromDatabase(location);
+
+      // Check if data is available
+      if (data && data.length > 0) {
+        // Extract months and prices from the data
+        const months = data.map(item => item.month);
+        const prices = data.map(item => item.price);
+
+        // Render the bar chart
+        renderBarChart(months, prices);
+      } else {
+        alert('No data available for the selected location.');
+      }
+    }
+
+    // Simulated function to fetch data from the database
+    async function fetchDataFromDatabase(location) {
+      // Replace this mock data with actual database query results
+      const mockData = {
+        location1: [
+          { month: 'January', price: 100 },
+          { month: 'February', price: 120 },
+          { month: 'March', price: 90 },
+          { month: 'April', price: 150 },
+          { month: 'May', price: 110 },
+          { month: 'June', price: 130 }
+        ],
+        location2: [
+          { month: 'January', price: 80 },
+          { month: 'February', price: 95 },
+          { month: 'March', price: 85 },
+          { month: 'April', price: 140 },
+          { month: 'May', price: 100 },
+          { month: 'June', price: 120 }
+        ]
+      };
+
+      // Simulate delay for fetching data
+      return new Promise(resolve => {
+        setTimeout(() => resolve(mockData[location] || []), 500);
+      });
+    }
+
+    // Function to render the bar chart using Chart.js
+    function renderBarChart(labels, data) {
+      const ctx = document.getElementById('barChart').getContext('2d');
+
+      // Destroy existing chart instance if it exists
+      if (window.barChartInstance) {
+        window.barChartInstance.destroy();
+      }
+
+      // Create a new bar chart
+      window.barChartInstance = new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: labels,
+          datasets: [{
+            label: 'Highest Price Per Month',
+            data: data,
+            backgroundColor: 'rgba(75, 192, 192, 0.2)',
+            borderColor: 'rgba(75, 192, 192, 1)',
+            borderWidth: 1
+          }]
+        },
+        options: {
+          responsive: true,
+          scales: {
+            x: {
+              title: {
+                display: true,
+                text: 'Month Name'
+              }
+            },
+            y: {
+              beginAtZero: true,
+              title: {
+                display: true,
+                text: 'Price'
+              }
+            }
+          }
+        }
+      });
+    }
+  </script>
 </body>
 </html>
