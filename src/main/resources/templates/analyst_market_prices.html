@@ -12,10 +12,11 @@
   <aside class="sidebar">
     <a href="/analyst_dashboard">Dashboard</a>
     <a href="/analyst_market_prices" class="active">Market Price for Crops</a>
-    <a href="/analyst_advised_rates">Advised Rates</a>
+    <a href="/analyst_input_market_data">Input Market Data</a>
     <a href="/analyst_graph_chart">Graph/Chart</a>
     <a href="/analyst_index">Sign Out</a>
   </aside>
+
   <!-- Main Content -->
   <main class="main-content">
     <h1>Market Prices for Crops</h1>
@@ -24,82 +25,31 @@
       <tr>
         <th>Update Date</th>
         <th>Crop ID</th>
-        <th>Crop Name</th>
         <th>Area Code</th>
         <th>Highest Price (per kg)</th>
         <th>Lowest Price (per kg)</th>
-        <th>Highest Price (Wholesaler)</th>
-        <th>Lowest Price (Wholesaler)</th>
-        <th>Actions</th>
+        <th>Expected Price After Week</th>
+        <th>Reason for Expected Price</th>
+        <th>Demand Status</th>
+        <th>Supply Status</th>
       </tr>
       </thead>
       <tbody>
       <!-- Dynamically render rows -->
       <tr th:each="price : ${marketPrices}">
-        <td th:text="${price.updateDate}"></td>
-        <td th:text="${price.cropId}"></td>
-        <td th:text="${price.cropName}"></td>
+        <td th:text="${price.update_date}"></td>
+        <td th:text="${price.cropID}"></td>
         <td th:text="${price.areaCode}"></td>
-        <td th:text="${price.highestPrice}"></td>
-        <td th:text="${price.lowestPrice}"></td>
-        <td th:text="${price.highestPriceWholesaler}"></td>
-        <td th:text="${price.lowestPriceWholesaler}"></td>
-        <td>
-          <button class="edit-btn" th:onclick="'openEditOverlay(' + ${price.cropId} + ')'">Edit</button>
-        </td>
+        <td th:text="${price.highestPricePerKgOrUnit}"></td>
+        <td th:text="${price.lowestPricePerKgOrUnit}"></td>
+        <td th:text="${price.expected_price_after_week_tk_per_kg}"></td>
+        <td th:text="${price.reason_for_advised_rate}"></td>
+        <td th:text="${price.current_demand_status}"></td>
+        <td th:text="${price.current_supply_status}"></td>
       </tr>
       </tbody>
     </table>
   </main>
 </div>
-
-<!-- Transparent Overlay for Editing -->
-<div id="edit-overlay-market" class="overlay" style="display: none;">
-  <div class="overlay-content">
-    <h2>Edit Market Prices</h2>
-    <form method="POST" action="/update_market_price">
-      <label for="update-date">Update Date:</label>
-      <input type="date" id="update-date" name="updateDate" th:value="${selectedPrice?.updateDate}" required>
-
-      <label for="crop-id">Crop ID:</label>
-      <input type="text" id="crop-id" name="cropId" th:value="${selectedPrice?.cropId}" readonly>
-
-      <label for="crop-name">Crop Name:</label>
-      <input type="text" id="crop-name" name="cropName" th:value="${selectedPrice?.cropName}" required>
-
-      <label for="area-code">Area Code:</label>
-      <input type="text" id="area-code" name="areaCode" th:value="${selectedPrice?.areaCode}" required>
-
-      <label for="highest-price">Highest Price (per kg):</label>
-      <input type="number" id="highest-price" name="highestPrice" th:value="${selectedPrice?.highestPrice}" required>
-
-      <label for="lowest-price">Lowest Price (per kg):</label>
-      <input type="number" id="lowest-price" name="lowestPrice" th:value="${selectedPrice?.lowestPrice}" required>
-
-      <label for="highest-wholesaler">Highest Price (Wholesaler):</label>
-      <input type="number" id="highest-wholesaler" name="highestPriceWholesaler" th:value="${selectedPrice?.highestPriceWholesaler}" required>
-
-      <label for="lowest-wholesaler">Lowest Price (Wholesaler):</label>
-      <input type="number" id="lowest-wholesaler" name="lowestPriceWholesaler" th:value="${selectedPrice?.lowestPriceWholesaler}" required>
-
-      <div class="form-buttons">
-        <button type="submit" class="submit-btn">Submit</button>
-        <button type="button" class="cancel-btn" onclick="closeEditOverlay()">Cancel</button>
-      </div>
-    </form>
-  </div>
-</div>
-
-<script>
-  // JavaScript to open and close the overlay
-  function openEditOverlay(id) {
-    document.getElementById('edit-overlay-market').style.display = 'flex';
-    // Fetch and populate the overlay with data using AJAX (optional for dynamic updates)
-  }
-
-  function closeEditOverlay() {
-    document.getElementById('edit-overlay-market').style.display = 'none';
-  }
-</script>
 </body>
 </html>
