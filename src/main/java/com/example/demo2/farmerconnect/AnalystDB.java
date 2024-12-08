@@ -1,6 +1,7 @@
 package com.example.demo2.farmerconnect;
 
 import java.sql.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -53,7 +54,7 @@ public class AnalystDB {
                 AnalystMarketPriceAndAdvisedRates_T marketData = new AnalystMarketPriceAndAdvisedRates_T();
 
                 // Assuming update_date is of type java.sql.Date
-                marketData.setUpdate_date(rs.getDate(1));  // Use getDate for date fields
+                marketData.setUpdate_date(rs.getDate(1));  // Use getUpdate_date for update_date fields
                 marketData.setCropID(rs.getString(2));  // Set Crop ID
                 marketData.setAreaCode(rs.getString(3));  // Set Area Code
                 marketData.setReason_for_advised_rate(rs.getString(4));  // Set Reason for Advised Rate
@@ -72,5 +73,8 @@ public class AnalystDB {
         }
         return allMarketData;
     }
+
+
+
 
 }

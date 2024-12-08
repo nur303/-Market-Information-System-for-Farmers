@@ -25,11 +25,39 @@
       <select id="location" name="location">
         <option value="" disabled selected>Select Location</option>
         <option th:each="location : ${locations}"
-                th:value="${location.id}"
-                th:text="${location.name}">
+                th:value="${location.area_code}"
+                th:text="${location.area_location}">
         </option>
       </select>
-      <button class="show-btn" onclick="fetchAndRenderData()">Show</button>
+      <!-- Dropdown for Crops -->
+      <label for="crop">Select Crop:</label>
+      <select id="crop" name="crop">
+        <option value="" disabled selected>Select Crop</option>
+        <option th:each="crop : ${crops}"
+                th:value="${crop.cropID}"
+                th:text="${crop.crop_name}">
+        </option>
+      </select>
+
+      <!-- Dropdown for Months -->
+      <label for="month">Select Month:</label>
+      <select id="month" name="month">
+        <option value="" disabled selected>Select Month</option>
+        <option value="2024-01">January</option>
+        <option value="2024-02">February</option>
+        <option value="2024-03">March</option>
+        <option value="2024-04">April</option>
+        <option value="2024-05">May</option>
+        <option value="2024-06">June</option>
+        <option value="2024-07">July</option>
+        <option value="2024-08">August</option>
+        <option value="2024-09">September</option>
+        <option value="2024-10">October</option>
+        <option value="2024-11">November</option>
+        <option value="2024-12">December</option>
+      </select>
+
+      <button class="show-btn" onclick="fetchAndRenderGraph()">Show</button>
     </div>
     <div class="chart-section">
       <canvas id="barChart" width="400" height="200"></canvas>
@@ -38,55 +66,44 @@
 </div>
 
 <script>
-  // Function to fetch data from the database and render the bar chart
-  async function fetchAndRenderData() {
-    const location = document.getElementById('location').value;
+  async function fetchAndRenderGraph() {
+    try {
+      // Retrieve filter values
+      const location = document.getElementById('location').value;
+      const crop = document.getElementById('crop').value;
+      const month = document.getElementById('month').value;
 
-    // Simulate fetching data from the database (replace this with actual API call or database query)
-    const data = await fetchDataFromDatabase(location);
+      // Ensure all filters are selected
+      if (!location || !crop || !month) {
+        alert('Please select all filters before displaying the chart.');
+        return;
+      }
 
-    // Check if data is available
-    if (data && data.length > 0) {
-      // Extract months and prices from the data
-      const months = data.map(item => item.month);
-      const prices = data.map(item => item.price);
+      // Fetch data from the backend API
+      const response = await fetch(`/api/pricing-graph?location=${location}&crop=${crop}&month=${month}`);
 
-      // Render the bar chart
-      renderBarChart(months, prices);
-    } else {
-      alert('No data available for the selected location.');
+      if (!response.ok) {
+        const errorMessage = await response.text();
+        alert(`Failed to fetch data: ${errorMessage}`);
+        return;
+      }
+
+      const data = await response.json();
+
+      // Check if data is available
+      if (data.length > 0) {
+        const dates = data.map(item => item.update_date); // Extract dates
+        const prices = data.map(item => item.price); // Extract prices
+        renderBarChart(dates, prices);
+      } else {
+        alert('No data available for the selected filters.');
+      }
+    } catch (error) {
+      console.error('Error fetching graph data:', error);
+      alert('An error occurred while fetching the graph data.');
     }
   }
 
-  // Simulated function to fetch data from the database
-  async function fetchDataFromDatabase(location) {
-    // Replace this mock data with actual database query results
-    const mockData = {
-      location1: [
-        { month: 'January', price: 100 },
-        { month: 'February', price: 120 },
-        { month: 'March', price: 90 },
-        { month: 'April', price: 150 },
-        { month: 'May', price: 110 },
-        { month: 'June', price: 130 }
-      ],
-      location2: [
-        { month: 'January', price: 80 },
-        { month: 'February', price: 95 },
-        { month: 'March', price: 85 },
-        { month: 'April', price: 140 },
-        { month: 'May', price: 100 },
-        { month: 'June', price: 120 }
-      ]
-    };
-
-    // Simulate delay for fetching data
-    return new Promise(resolve => {
-      setTimeout(() => resolve(mockData[location] || []), 500);
-    });
-  }
-
-  // Function to render the bar chart using Chart.js
   function renderBarChart(labels, data) {
     const ctx = document.getElementById('barChart').getContext('2d');
 
@@ -101,7 +118,7 @@
       data: {
         labels: labels,
         datasets: [{
-          label: 'Highest Price Per Month',
+          label: 'Price Per Month',
           data: data,
           backgroundColor: 'rgba(75, 192, 192, 0.2)',
           borderColor: 'rgba(75, 192, 192, 1)',
@@ -114,14 +131,14 @@
           x: {
             title: {
               display: true,
-              text: 'Month Name'
+              text: 'Dates'
             }
           },
           y: {
             beginAtZero: true,
             title: {
               display: true,
-              text: 'Price'
+              text: 'Prices'
             }
           }
         }

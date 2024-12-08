@@ -1,16 +1,24 @@
 package com.example.demo2.farmerconnect;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.*;
 
+import java.sql.*;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @Controller
 public class AnalystController {
     @Autowired
     AnalystService analystService;
+
+    AreaDB areaDB = new AreaDB();
+    CropDB cropDB = new CropDB();
 
     @GetMapping("/analyst_dashboard")
     public String getAnalyst() {return "analyst_dashboard";}
@@ -34,9 +42,25 @@ public class AnalystController {
     }
 
 // modeling attribute
+    // showing all market price
     @ModelAttribute("marketPrices")
     public List<AnalystMarketPriceAndAdvisedRates_T> allMarketData() {
 
         return analystService.showMarketPriceAndRates();
-}
+
+    // showing all crop, area as option graphs and charts
+
+    }
+    @ModelAttribute("locations")
+    public List<Area_T> allLocations() {
+        return areaDB.showAllAreaData();
+    }
+    @ModelAttribute("crops")
+    public List<Crop_T> allCrops() {
+        return cropDB.showAllCropData();
+    }
+
+
+
+
 }

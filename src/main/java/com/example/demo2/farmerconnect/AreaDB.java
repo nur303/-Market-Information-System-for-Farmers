@@ -1,9 +1,8 @@
 package com.example.demo2.farmerconnect;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class AreaDB {
     Connection conn ;
@@ -33,5 +32,26 @@ public class AreaDB {
             throw new RuntimeException(e);
         }
 
+    }
+    public List<Area_T> showAllAreaData() {
+        List<Area_T> allData = new ArrayList<>();
+        String sql = "SELECT  area_code,area_location FROM AREA_T";
+        try {
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Area_T areaData = new Area_T();
+
+                // Assuming update_date is of type java.sql.Date
+                areaData.setArea_code(rs.getString(1));  // Use getUpdate_date for update_date fields
+                areaData.setArea_location(rs.getString(2));  // Set Crop ID
+                allData.add(areaData);
+            }
+            rs.close();
+            ps.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return allData;
     }
 }
