@@ -1,1 +1,0 @@
-# -Market-Information-System-for-Farmers
