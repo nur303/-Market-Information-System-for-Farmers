@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Farmer Land and Crop Distribution</title>
+    <link rel="stylesheet" href="Farmer Land.css">
+</head>
+<body>
+
+    <div class="container">
+        <!-- First Image Layout -->
+        <div class="section">
+            <!-- Left side: Farmer Land Table with Back Button -->
+            <div class="farmer-land">
+                <div class="back-button-container">
+                    <button class="back-button" onclick="history.back()">&#8592; Back</button>
+                </div>
+                <h2>Farmer Land</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Land Area</th>
+                            <th>Land Id</th>
+                            <th>Area Code</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Empty for data input -->
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Right side: Crop Distribution Bar Chart -->
+            <div class="crop-distribution">
+                <h2>Crop Distribution</h2>
+                <div class="bar-chart">
+                    <div class="bar" style="width: 40%; background-color: #3498db;">
+                        <span class="label">Wheat</span>
+                    </div>
+                    <div class="bar" style="width: 30%; background-color: #e67e22;">
+                        <span class="label">Corn</span>
+                    </div>
+                    <div class="bar" style="width: 20%; background-color: #f1c40f;">
+                        <span class="label">Soybeans</span>
+                    </div>
+                    <div class="bar" style="width: 10%; background-color: #2ecc71;">
+                        <span class="label">Vegetables</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Second Image Layout -->
+        <div class="section">
+            <!-- Left side: Crop Area Breakdown Pie Chart -->
+            <div class="pie-chart">
+                <h2>Crop Area Breakdown</h2>
+                <div class="pie-container">
+                    <div class="pie-slice" style="background-color: #3498db; width: 40%;">Wheat (40%)</div>
+                    <div class="pie-slice" style="background-color: #e67e22; width: 30%;">Corn (30%)</div>
+                    <div class="pie-slice" style="background-color: #f1c40f; width: 20%;">Soybeans (20%)</div>
+                    <div class="pie-slice" style="background-color: #2ecc71; width: 10%;">Vegetables (10%)</div>
+                </div>
+                <div class="legend">
+                    <ul>
+                        <li><span style="background-color: #3498db;"></span> Wheat</li>
+                        <li><span style="background-color: #e67e22;"></span> Corn</li>
+                        <li><span style="background-color: #f1c40f;"></span> Soybeans</li>
+                        <li><span style="background-color: #2ecc71;"></span> Vegetables</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Right side: Interactive Map -->
+            <div class="interactive-map">
+                <h2>Interactive Map</h2>
+                <div class="map-placeholder">
+                    <button class="zoom-in">Zoom In</button>
+                    <div class="map">[Map Placeholder]</div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</body>
+</html>
