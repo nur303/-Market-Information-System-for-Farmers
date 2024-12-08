@@ -97,96 +97,104 @@
     </div>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
-        const cropPosts = document.getElementById('crop-posts');
-        const addCropButton = document.getElementById('add-crop');
-        const trendTypeSelect = document.getElementById('trend-type');
-
-        const crops = [
-            { farmer: 'Rahim', crop: 'Rice', price: 10 },
-            { farmer: 'Rahim', crop: 'Potato', price: 5 },
-            { farmer: 'Rahim', crop: 'Onions', price: 8 }
-        ];
-
-        function renderCrops() {
-            cropPosts.innerHTML = '';
-            crops.forEach(crop => {
-                const cropPost = document.createElement('div');
-                cropPost.classList.add('crop-post');
-                cropPost.innerHTML = `
-                    <h2>${crop.farmer}'s Crops</h2>
-                    <p>${crop.crop} - $${crop.price} per kg</p>
-                    <div class="interested">I'm Interested</div>
-                `;
-                cropPost.querySelector('.interested').addEventListener('click', function() {
-                    alert('Thank you for your interest!');
+        document.addEventListener('DOMContentLoaded', function() {
+            fetch('/api/crops')
+                .then(response => response.json())
+                .then(data => {
+                    crops = data;
+                    renderCrops();
                 });
-                cropPosts.appendChild(cropPost);
-            });
-        }
 
-        addCropButton.addEventListener('click', function() {
-            const farmerName = document.getElementById('farmer-name').value;
-            const cropName = document.getElementById('crop-name').value;
-            const cropPrice = document.getElementById('crop-price').value;
+            addCropButton.addEventListener('click', function() {
+                const farmerName = document.getElementById('farmer-name').value;
+                const cropName = document.getElementById('crop-name').value;
+                const cropPrice = document.getElementById('crop-price').value;
 
-            if (farmerName && cropName && cropPrice) {
-                crops.push({ farmer: farmerName, crop: cropName, price: parseFloat(cropPrice) });
-                renderCrops();
-            }
-        });
-
-        renderCrops();
-
-        const ctx = document.getElementById('priceChart').getContext('2d');
-        let priceChart;
-
-        function renderChart(type) {
-            const monthlyData = {
-                labels: ['Jan 2021', 'Feb 2021', 'Mar 2021', 'Apr 2021', 'May 2021', 'Jun 2021', 'Jul 2021', 'Aug 2021', 'Sep 2021', 'Oct 2021', 'Nov 2021', 'Dec 2021', 'Jan 2022'],
-                datasets: [{
-                    label: 'Rice Price ($ per kg)',
-                    data: [10, 12, 11, 13, 14, 15, 16, 14, 13, 12, 11, 10, 9],
-                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
-                    borderColor: 'rgba(75, 192, 192, 1)',
-                    borderWidth: 1
-                }]
-            };
-
-            const yearlyData = {
-                labels: ['2020', '2021', '2022'],
-                datasets: [{
-                    label: 'Rice Price ($ per kg)',
-                    data: [12, 14, 13],
-                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
-                    borderColor: 'rgba(75, 192, 192, 1)',
-                    borderWidth: 1
-                }]
-            };
-
-            const data = type === 'monthly' ? monthlyData : yearlyData;
-
-            if (priceChart) {
-                priceChart.destroy();
-            }
-
-            priceChart = new Chart(ctx, {
-                type: 'bar',
-                data: data,
-                options: {
-                    scales: {
-                        y: {
-                            beginAtZero: true
-                        }
-                    }
+                if (farmerName && cropName && cropPrice) {
+                    const newCrop = { farmer: farmerName, crop: cropName, price: parseFloat(cropPrice) };
+                    fetch('/api/crops', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(newCrop)
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        crops.push(data);
+                        renderCrops();
+                    });
                 }
             });
-        }
 
-        trendTypeSelect.addEventListener('change', function() {
-            renderChart(this.value);
+            function renderCrops() {
+                cropPosts.innerHTML = '';
+                crops.forEach(crop => {
+                    const cropPost = document.createElement('div');
+                    cropPost.classList.add('crop-post');
+                    cropPost.innerHTML = `
+                        <h2>${crop.farmer}'s Crops</h2>
+                        <p>${crop.crop} - $${crop.price} per kg</p>
+                        <div class="interested">I'm Interested</div>
+                    `;
+                    cropPost.querySelector('.interested').addEventListener('click', function() {
+                        alert('Thank you for your interest!');
+                    });
+                    cropPosts.appendChild(cropPost);
+                });
+            }
+
+            const ctx = document.getElementById('priceChart').getContext('2d');
+            let priceChart;
+
+            function renderChart(type) {
+                const monthlyData = {
+                    labels: ['Jan 2021', 'Feb 2021', 'Mar 2021', 'Apr 2021', 'May 2021', 'Jun 2021', 'Jul 2021', 'Aug 2021', 'Sep 2021', 'Oct 2021', 'Nov 2021', 'Dec 2021', 'Jan 2022'],
+                    datasets: [{
+                        label: 'Rice Price ($ per kg)',
+                        data: [10, 12, 11, 13, 14, 15, 16, 14, 13, 12, 11, 10, 9],
+                        backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                        borderColor: 'rgba(75, 192, 192, 1)',
+                        borderWidth: 1
+                    }]
+                };
+
+                const yearlyData = {
+                    labels: ['2020', '2021', '2022'],
+                    datasets: [{
+                        label: 'Rice Price ($ per kg)',
+                        data: [12, 14, 13],
+                        backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                        borderColor: 'rgba(75, 192, 192, 1)',
+                        borderWidth: 1
+                    }]
+                };
+
+                const data = type === 'monthly' ? monthlyData : yearlyData;
+
+                if (priceChart) {
+                    priceChart.destroy();
+                }
+
+                priceChart = new Chart(ctx, {
+                    type: 'bar',
+                    data: data,
+                    options: {
+                        scales: {
+                            y: {
+                                beginAtZero: true
+                            }
+                        }
+                    }
+                });
+            }
+
+            trendTypeSelect.addEventListener('change', function() {
+                renderChart(this.value);
+            });
+
+            renderChart('monthly');
         });
-
-        renderChart('monthly');
     </script>
 </body>
 </html>
