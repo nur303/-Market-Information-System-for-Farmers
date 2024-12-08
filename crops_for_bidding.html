@@ -97,6 +97,11 @@
     </div>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
+        const cropPosts = document.getElementById('crop-posts');
+        const addCropButton = document.getElementById('add-crop');
+        const trendTypeSelect = document.getElementById('trend-type');
+        let crops = [];
+
         document.addEventListener('DOMContentLoaded', function() {
             fetch('/api/crops')
                 .then(response => response.json())
