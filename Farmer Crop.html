@@ -8,7 +8,11 @@
 </head>
 <body>
     <div class="container">
-        <h1>Farmer Crop Information</h1>
+        <!-- Back Button placed outside of the table and title -->
+        <button class="back-btn" onclick="history.back()">&#8592;Back</button> 
+
+        <h1 class="title">Farmer Crop Information</h1>
+
         <div class="search-bar">
             <input type="text" id="search" placeholder="Search Crop...">
         </div>
@@ -26,8 +30,6 @@
                     <td class="crop-id">001</td>
                     <td class="crop-name">Wheat</td>
                     <td>Rabi</td>
-                     
-
                 </tr>
                 <tr>
                     <td class="crop-id">002</td>
@@ -80,8 +82,14 @@
         <div id="crop-details" class="slide-panel">
             <div class="details-content">
                 <h2>Crop Details</h2>
-                <p id="crop-description">Select a crop to see the details.</p>
+                <div id="crop-image-container">
+                    <img id="crop-image" src="" alt="Crop Image" style="width: 100%; height: auto; margin-bottom: 20px;">
+                </div>
+                <ul id="crop-description">
+                    <li>Select a crop to see the details.</li>
+                </ul>
             </div>
+            <button id="back-btn">Back</button>
             <button id="close-btn">Close</button>
         </div>
     </div>

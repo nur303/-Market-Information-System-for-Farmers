@@ -8,23 +8,23 @@ body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
-    background-image: url('img/crop\ background.jpg'); /* Background image for the entire page */
-    background-size: cover; /* Ensure the background covers the whole page */
-    background-position: center; /* Center the background image */
-    background-attachment: fixed; /* Keeps the background fixed while scrolling */
+    background-image: url('img/crop\ background.jpg');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
     color: #333;
-    
 }
 
 .container {
     width: 80%;
     margin: 0 auto;
     padding-top: 20px;
+    position: relative;
 }
 
-h1 {
+.title {
     text-align: center;
-    margin-bottom: 20px;
+    margin-top: 40px;
 }
 
 .search-bar {
@@ -37,6 +37,24 @@ h1 {
     width: 200px;
     border: 1px solid #ccc;
     border-radius: 5px;
+}
+
+.back-btn {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    background-color: #4CAF50;
+    color: rgb(228, 222, 222);
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 5px;
+    z-index: 10;
+}
+
+.back-btn:hover {
+    background-color: #8e44ad;
 }
 
 table {
@@ -87,6 +105,29 @@ tr:hover {
     margin-bottom: 40px;
 }
 
+#crop-description {
+    list-style-type: none;
+    padding: 0;
+}
+
+#crop-description li {
+    margin: 10px 0;
+}
+
+#back-btn {
+    padding: 10px 20px;
+    background-color: #2196F3;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-right: 10px;
+}
+
+#back-btn:hover {
+    background-color: #1976D2;
+}
+
 #close-btn {
     padding: 10px 20px;
     background-color: #f44336;
@@ -103,4 +144,27 @@ tr:hover {
 #search:focus {
     outline: none;
     border-color: #4CAF50;
+}
+
+@media (max-width: 768px) {
+    .container {
+        width: 90%;
+    }
+
+    #search {
+        width: 150px;
+    }
+
+    #crop-details {
+        width: 300px;
+    }
+
+    table {
+        font-size: 14px;
+    }
+
+    #back-to-table-btn {
+        top: 10px;
+        left: 10px;
+    }
 }
