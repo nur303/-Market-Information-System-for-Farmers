@@ -103,7 +103,7 @@
         let crops = [];
 
         document.addEventListener('DOMContentLoaded', function() {
-            fetch('/api/crops')
+            fetch('backend/get_crops.php')
                 .then(response => response.json())
                 .then(data => {
                     crops = data;
@@ -117,7 +117,7 @@
 
                 if (farmerName && cropName && cropPrice) {
                     const newCrop = { farmer: farmerName, crop: cropName, price: parseFloat(cropPrice) };
-                    fetch('/api/crops', {
+                    fetch('backend/add_crop.php', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json'
