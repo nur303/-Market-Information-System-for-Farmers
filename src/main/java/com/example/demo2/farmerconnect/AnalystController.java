@@ -1,15 +1,9 @@
 package com.example.demo2.farmerconnect;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import java.sql.*;
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 @Controller
@@ -23,8 +17,7 @@ public class AnalystController {
     @GetMapping("/analyst_dashboard")
     public String getAnalyst() {return "analyst_dashboard";}
 
-    @GetMapping("/analyst_input_market_data")
-    public String advised_rates() {return "analyst_input_for_market_price";}
+
 
     @GetMapping("/analyst_graph_chart")
     public String graph() {

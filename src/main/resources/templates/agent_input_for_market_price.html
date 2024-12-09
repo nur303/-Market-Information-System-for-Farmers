@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Analyst Input for Market Price</title>
+  <link rel="stylesheet" href="analyst.css">
+  <style>
+    /* Additional styling for better layout */
+    .form-container {
+      max-width: 600px;
+      margin: 20px auto;
+      padding: 20px;
+      background-color: #f9f9f9;
+      border-radius: 10px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 20px;
+      color: #333;
+    }
+
+    .form-group {
+      margin-bottom: 15px;
+    }
+
+    label {
+      display: block;
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+
+    input, textarea, select, button {
+      width: 100%;
+      padding: 10px;
+      font-size: 14px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      box-sizing: border-box;
+    }
+
+    textarea {
+      resize: vertical;
+    }
+
+    button {
+      width: 100%;
+      padding: 10px;
+      font-size: 16px;
+      font-weight: bold;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+
+    button:hover {
+      background-color: #45a049;
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+  <!-- Sidebar -->
+  <aside class="sidebar">
+
+    <a href="/agent_input_market_data" class="active">Input Market Data</a>
+
+  </aside>
+
+  <!-- Main Content -->
+  <main class="main-content">
+    <div class="form-container">
+      <h2>Input Data for Market Price</h2>
+      <form id="analystForm">
+        <!-- Location Dropdown -->
+        <div class="form-group">
+          label for="location">Select Location:</label>
+          <select id="location" name="location" required>
+            <option value="" disabled selected>Select Location</option>
+            <<option th:each="location : ${locations}"
+                    th:value="${location.area_code}"
+                    th:text="${location.area_location}">
+            </option>
+          </select>
+        </div>
+
+        <!-- Crop Dropdown -->
+        <div class="form-group">
+          <label for="crop">Select Crop:</label>
+          <select id="crop" name="crop" required>
+            <option value="" disabled selected>Select Crop</option>
+            <option th:each="crop : ${crops}"
+                    th:value="${crop.cropID}"
+                    th:text="${crop.crop_name}">
+            </option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="season">Season:</label>
+          <input type="text" id="season" name="season" placeholder="Enter season (e.g., Winter)" required>
+        </div>
+
+        <div class="form-group">
+          <label for="advisedRate">Advised Rate:</label>
+          <input type="number" id="advisedRate" name="advisedRate" placeholder="Enter advised rate" required>
+        </div>
+
+        <div class="form-group">
+          <label for="reason">Reason:</label>
+          <textarea id="reason" name="reason" placeholder="Enter reason for advised rate" rows="4" required></textarea>
+        </div>
+
+        <div class="form-group">
+          <label for="demandStatus">Demand Status:</label>
+          <input type="text" id="demandStatus" name="demandStatus" placeholder="Enter demand status" required>
+        </div>
+
+        <div class="form-group">
+          <label for="supplyStatus">Supply Status:</label>
+          <input type="text" id="supplyStatus" name="supplyStatus" placeholder="Enter supply status" required>
+        </div>
+
+        <!-- Submit Button -->
+        <button type="button" onclick="submitAnalystData()">Submit</button>
+      </form>
+    </div>
+  </main>
+</div>
+
+<script>
+  async function submitAnalystData() {
+    try {
+      const form = document.getElementById('analystForm');
+      const formData = new FormData(form);
+
+      const payload = Object.fromEntries(formData.entries());
+      const response = await fetch('/api/analyst-input', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+
+      if (response.ok) {
+        alert('Data submitted successfully!');
+        form.reset();
+      } else {
+        const error = await response.text();
+        alert(`Error: ${error}`);
+      }
+    } catch (error) {
+      console.error('Submission error:', error);
+      alert('An error occurred while submitting the data.');
+    }
+  }
+</script>
+</body>
+</html>

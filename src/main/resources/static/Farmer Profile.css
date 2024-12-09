@@ -1,0 +1,137 @@
+/* General Styles */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-image: url('img/profile\ background.jpg'); /* Background image for the entire page */
+    background-size: cover; /* Ensure the background covers the whole page */
+    background-position: center; /* Center the background image */
+    background-attachment: fixed; /* Keeps the background fixed while scrolling */
+    color: #333;
+}
+
+/* Back Button */
+.back-btn {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    background-color: #4CAF50;
+    color: rgb(228, 222, 222);
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 5px;
+    z-index: 10;
+}
+
+.back-btn:hover {
+    background-color: #8e44ad;
+}
+
+/* Container */
+.container {
+    position: relative;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* Profile Section */
+.profile-section {
+    background-color: rgba(255, 255, 255, 0.8); /* Transparent white background for the profile */
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 30px;
+    margin-top: 60px; /* Add space for the back button */
+}
+
+.profile-section h1 {
+    text-align: center;
+    color: #4CAF50;
+    margin-top: 30px;
+}
+
+.profile-section h2 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+/* Profile Picture */
+.profile-picture {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.profile-picture img {
+    border-radius: 50%;
+    border: 4px solid #4CAF50;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Profile Details */
+.profile-details {
+    list-style-type: none;
+    padding: 0;
+}
+
+.profile-details li {
+    font-size: 16px;
+    margin-bottom: 10px;
+}
+
+.profile-details strong {
+    color: #4CAF50;
+}
+
+/* Edit Button */
+.edit-btn {
+    background-color: #f4f4f4;
+    border: 1px solid #8e44ad;
+    padding: 5px 10px;
+    font-size: 14px;
+    cursor: pointer;
+    margin-left: 10px;
+    border-radius: 5px;
+    color: #8e44ad;
+}
+
+.edit-btn:hover {
+    background-color: #e1e1e1;
+}
+
+/* Save Button */
+.save-button-container {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.save-btn {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.save-btn:hover {
+    background-color: #45a049;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .container {
+        padding: 15px;
+    }
+
+    .profile-section {
+        padding: 20px;
+    }
+
+    .profile-details li {
+        font-size: 14px;
+    }
+}

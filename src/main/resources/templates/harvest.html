@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Harvest Dashboard - FarmerConnect</title>
+    <style>
+        /* Basic Table Styling */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0;
+        }
+        table th, table td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        table th {
+            background-color: #5a9c45;
+            color: white;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background: #5a9c45;
+            color: white;
+            padding: 1rem 0;
+        }
+        header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        header h1 {
+            margin-left: 20px;
+        }
+        header nav ul {
+            list-style: none;
+            display: flex;
+        }
+        header nav ul li {
+            margin: 0 15px;
+        }
+        header nav ul li a {
+            color: white;
+            text-decoration: none;
+        }
+        .buyer {
+            background: #5a9c45;
+            color: white;
+            text-align: center;
+            padding: 1rem 0;
+            bottom: 0px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>FarmerConnect</h1>
+            <nav>
+                <ul>
+                    <li><a href="harvest.html">Harvest</a></li>
+                    <li><a href="analysis.html">Analysis</a></li> 
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <section class="content">
+        <div class="container">
+            <h2>Harvest Dashboard</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Harvest ID</th>
+                        <th>Crop ID</th>
+                        <th>Farmer ID</th>
+                        <th>Date of Harvest</th>
+                        <th>Quantity</th>
+                        <th>Asking Price</th>
+                        <th>Quality</th>
+                        <th>Area</th>
+                        <th>Location</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>H001</td>
+                        <td>001</td>
+                        <td>F001</td>
+                        <td>2024-10-15</td>
+                        <td>500 kg</td>
+                        <td>$0.45</td>
+                        <td>Grade A</td>
+                        <td>Nababpur </td>
+                        <td>Rajshahi </td>
+
+                    </tr>
+                    <tr>
+                        <td>H002</td>
+                        <td>002</td>
+                        <td>F002</td>
+                        <td>2024-11-01</td>
+                        <td>700 kg</td>
+                        <td>$0.60</td>
+                        <td>Grade B</td>
+                        <td>Nijnanduwali </td>
+                        <td>Magura </td>
+                    </tr>
+                    <tr>
+                        <td>H003</td>
+                        <td>003</td>
+                        <td>F003</td>
+                        <td>2024-09-20</td>
+                        <td>800 kg</td>
+                        <td>$0.30</td>
+                        <td>Grade A</td>
+                        <td>patwali</td>
+                        <td>Rajbari </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+
+</body>
+</html>

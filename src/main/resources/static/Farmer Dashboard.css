@@ -1,0 +1,144 @@
+/* Global Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    background-color: #f4f4f4;
+    color: #333333;
+}
+
+.container {
+    display: flex;
+    min-height: 100vh;
+}
+
+/* Sidebar (Left Side) */
+.sidebar {
+    width: 250px;
+    background-color: black;
+    color: white;
+    padding: 20px;
+}
+
+.sidebar .logo {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.sidebar nav ul {
+    list-style-type: none;
+    padding-left: 0;
+}
+
+.sidebar nav ul li {
+    margin: 15px 0;
+}
+
+.sidebar nav ul li a {
+    color: white;
+    text-decoration: none;
+    font-size: 1.2em;
+}
+
+.sidebar nav ul li a:hover {
+    color: #4CAF50;
+}
+
+/* Log Out Button */
+.logout-btn {
+    display: block;
+    text-align: center;
+    background-color: #FF4D4D;
+    color: white;
+    padding: 10px 20px;
+    font-size: 1.2em;
+    border-radius: 5px;
+    text-decoration: none;
+    margin-top: 20px;
+}
+
+.logout-btn:hover {
+    background-color: #E04343;
+}
+
+/* Main Content (Right Side) */
+.main-content {
+    flex: 1;
+    padding: 30px;
+}
+
+header {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+header h1 {
+    font-size: 2.5em;
+}
+
+header p {
+    font-size: 1.2em;
+    color: #666;
+}
+
+.chart-container {
+    margin-bottom: 40px;
+}
+
+.chart-container h2 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+/* Bottom Section (Weather & Profit) */
+.bottom-section {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+.weather {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 48%; /* Make sure the weather section takes up 48% of the width */
+}
+
+.weather h2 {
+    font-size: 1.8em;
+    margin-bottom: 10px;
+}
+
+.weather .weather-details {
+    margin-bottom: 10px;
+}
+
+.weather p {
+    font-size: 1.2em;
+}
+
+.weather-icon {
+    width: 50px;
+    height: 50px;
+}
+
+/* Profit Pie Chart */
+.chart-container {
+    width: 48%; /* Make sure the profit chart section takes up 48% of the width */
+}
+
+/* Product Details (Bar Chart) */
+.product-chart {
+    width: 100%; /* Full width for the bar chart */
+}
+
+/* Make the charts responsive */
+canvas {
+    max-width: 100%;
+    height: 300px;
+}

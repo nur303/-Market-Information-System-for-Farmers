@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FarmerConnect - Harvest Dashboard</title>
+    <style>
+        :root {
+            --primary-color: #5a9c45;
+            --secondary-color: #4e8a3d;
+            --light-bg: #f1f2f6;
+            --text-color: #2c3e50;
+            --white: #ffffff;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: var(--light-bg);
+            color: var(--text-color);
+        }
+
+        .container {
+            width: 90%;
+            margin: 20px auto;
+        }
+
+        header {
+            background: var(--primary-color);
+            color: white;
+            padding: 1rem 0;
+        }
+
+        header .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        header nav ul {
+            list-style: none;
+            display: flex;
+        }
+
+        header nav ul li {
+            margin: 0 15px;
+        }
+
+        header nav ul li a {
+            color: white;
+            text-decoration: none;
+        }
+
+        .dashboard-section {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            background-color: var(--white);
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            margin-top: 20px;
+        }
+
+        .selection-form {
+            background-color: var(--white);
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+
+        select, input, button {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        button {
+            background-color: var(--primary-color);
+            color: var(--white);
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: var(--secondary-color);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        table th, table td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+
+        table th {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        tr:hover {
+            background-color: #f9f9f9;
+        }
+
+        canvas {
+            max-width: 100%;
+            margin-top: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .dashboard-section {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+    <!-- Chart.js library -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <header>
+        <div class="nav-container">
+            <h1>FarmerConnect</h1>
+            <nav>
+                <ul>
+                    <li><a href="harvest.html">Harvest</a></li>
+                    <li><a href="analysis.html">Analysis</a></li> 
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="selection-form">
+            <h2>Harvest Dashboard</h2>
+            <div class="form-group">
+                <label for="area">Select Area</label>
+                <select id="area" name="area">
+                    <option value="Rajshahi">Rajshahi</option>
+                    <option value="Magura">Magura</option>
+                    <option value="Rajbari">Rajbari</option>
+                    <option value="Barisal">Barisal</option>
+                    <option value="Dhaka">Dhaka</option>
+                </select>
+
+                <label for="crop">Select Crop</label>
+                <select id="crop" name="crop">
+                    <option value="Rice">Rice</option>
+                    <option value="Wheat">Wheat</option>
+                    <option value="Maize">Maize</option>
+                    <option value="Potato">Potato</option>
+                    <option value="Jute">Jute</option>
+                </select>
+
+                <button type="button" onclick="displayGraph()">Show Harvest Data</button>
+            </div>
+        </div>
+
+        <div class="dashboard-section">
+            <div>
+                <h2>Monthly Harvest Graph</h2>
+                <canvas id="harvestChart" style="display:none;"></canvas>
+            </div>
+            
+            <div>
+                <h2>Harvest Info List</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Farmer ID</th>
+                            <th>Crop Name</th>
+                            <th>Harvest Date</th>
+                            <th>Quantity (kg)</th>
+                            
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>F001</td>
+                            <td>Wheat</td>
+                            <td>2024-01-10</td>
+                            <td>1200</td>
+                            
+                        </tr>
+                        <tr>
+                            <td>F002</td>
+                            <td>Rice</td>
+                            <td>2024-01-15</td>
+                            <td>2000</td>
+                            
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="selection-form">
+            <h2>Submit New Harvest Info</h2>
+            <form id="harvestInfoForm">
+                <div class="form-group">
+                    <label for="farmerId">Farmer ID:</label>
+                    <input type="text" id="farmerId" name="farmerId" placeholder="Enter Farmer ID" required>
+        
+                    <label for="cropName">Crop Name:</label>
+                    <input type="text" id="cropName" name="cropName" placeholder="Enter Crop Name" required>
+        
+                    <label for="harvestDate">Harvest Date:</label>
+                    <input type="date" id="harvestDate" name="harvestDate" required>
+        
+                    <label for="quantity">Quantity (kg):</label>
+                    <input type="number" id="quantity" name="quantity" placeholder="Enter Quantity" required>
+        
+                    <label for="revenue">Revenue ($):</label>
+                    <input type="number" id="revenue" name="revenue" placeholder="Enter Revenue" required>
+        
+                    <label for="harvestingMethod">Harvesting Method:</label>
+                    <input type="text" id="harvestingMethod" name="harvestingMethod" placeholder="Enter Harvesting Method" required>
+        
+                    <label for="storageLocation">Storage Location:</label>
+                    <input type="text" id="storageLocation" name="storageLocation" placeholder="Enter Storage Location" required>
+        
+                    <label for="buyerName">Buyer Name:</label>
+                    <input type="text" id="buyerName" name="buyerName" placeholder="Enter Buyer Name" required>
+        
+                    <button type="submit">Submit Harvest Info</button>
+                </div>
+            </form>
+        </div>
+        
+
+    <script>
+        function displayGraph() {
+            // Show the canvas
+            document.getElementById('harvestChart').style.display = 'block';
+
+            // Example data for demonstration purposes
+            const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+            const dataKg = [500, 600, 450, 700, 800, 650, 720, 690, 770, 810, 900, 850];
+
+            // Get the chart context
+            const ctx = document.getElementById('harvestChart').getContext('2d');
+
+            // Create the chart
+            new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: months,
+                    datasets: [{
+                        label: 'Harvest Quantity (kg)',
+                        data: dataKg,
+                        borderColor: '#5a9c45',
+                        backgroundColor: 'rgba(90, 156, 69, 0.2)',
+                        borderWidth: 2,
+                        fill: true,
+                        tension: 0.4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        x: {
+                            title: {
+                                display: true,
+                                text: 'Month'
+                            }
+                        },
+                        y: {
+                            title: {
+                                display: true,
+                                text: 'Quantity (kg)'
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        function viewDetails(farmerId) {
+            alert(`Viewing details for Farmer ID: ${farmerId}`);
+            // You can expand this to show a modal or update a details section
+        }
+    </script>
+</body>
+</html>

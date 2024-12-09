@@ -9,12 +9,11 @@ import org.springframework.web.bind.annotation.RestController;
 import java.sql.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
 @RestController
-public class PricingGraphController {
+public class AnalystRestController {
 
     Connection conn;
     {  // runs when an instance is created..
