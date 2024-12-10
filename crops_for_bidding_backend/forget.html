@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reset Password</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(to right, #6a11cb, #2575fc);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            background: url(images/login.jpg.jpg) no-repeat center center fixed;
+            background-size: cover;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .wrapper {
+            background: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+        }
+
+        .container {
+            padding: 20px;
+        }
+
+        .title-section .title {
+            font-size: 24px;
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        .title-section .para {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 20px;
+        }
+
+        .input-field {
+            margin-bottom: 15px;
+            position: relative;
+            width: 100%;
+        }
+
+        .input-field input[type="email"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        .input-field input[type="email"]:focus {
+            border-color: #6a11cb;
+        }
+
+        .input-field input[type="submit"] {
+            width: 100%;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            background: #6a11cb;
+            color: #fff;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .input-field input[type="submit"]:hover {
+            background: #2575fc;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="wrapper">
+        <div class="container">
+            <div class="title-section">
+                <h2 class="title">Reset Password</h2>
+                <p class="para">Enter your email to receive a link to reset your password. Please check your inbox for the link and follow the instructions to set a new password.</p>
+            </div>
+            <form action="forget" method="post">
+                <div class="input-field">
+                    <input type="email" name="email" placeholder="Enter your email" required>
+                </div>
+                <div class="input-field">
+                    <input type="submit" name="submit" value="Send">
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+
+</html>
