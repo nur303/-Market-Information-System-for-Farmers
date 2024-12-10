@@ -39,6 +39,7 @@ public class AnalystMarketPriceAndAdvisedRates_T {
         this.expected_price_after_week_tk_per_kg = expected_sales_price_after_week;
     }
 
+
     public AnalystMarketPriceAndAdvisedRates_T() {
 
     }

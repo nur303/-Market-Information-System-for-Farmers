@@ -2,9 +2,7 @@ package com.example.demo2.farmerconnect;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.sql.*;
 import java.time.LocalDate;
@@ -14,7 +12,8 @@ import java.util.Map;
 
 @RestController
 public class AnalystRestController {
-
+    AnalystMarketPriceAndAdvisedRates_T marketDataInput = new AnalystMarketPriceAndAdvisedRates_T();
+    AnalystDB analystDB = new AnalystDB();
     Connection conn;
     {  // runs when an instance is created..
         try
@@ -68,6 +67,51 @@ public class AnalystRestController {
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body(Map.of("error", "Failed to fetch pricing data", "message", e.getMessage()));
+        }
+    }
+
+    @PostMapping("/api/AnalystInputForm")
+    public ResponseEntity<String> handleFormSubmission(@RequestBody Map<String,Object >inputData) {
+        try {
+            System.out.println("Received Input Data: " + inputData);
+            // saving data to handle class :
+            marketDataInput.setCropID((String)inputData.get("crop"));
+            System.out.println(marketDataInput.getCropID());
+            marketDataInput.setAreaCode((String)inputData.get("location"));
+            System.out.println(marketDataInput.getAreaCode());
+            marketDataInput.setCurrent_supply_status((String)inputData.get("supplyStatus"));
+            System.out.println(marketDataInput.getCurrent_supply_status());
+            marketDataInput.setReason_for_advised_rate( (String)inputData.get("reason"));
+            System.out.println(marketDataInput.getReason_for_advised_rate());
+            marketDataInput.setCurrent_demand_status((String)inputData.get("demandStatus"));
+            System.out.println(marketDataInput.getCurrent_demand_status());
+
+            // Convert expectedPrice, highestPrice, and lowestPrice to Integer
+            Object expectedPriceObj = inputData.get("expectedPrice");
+            Object highestPriceObj = inputData.get("highestPrice");
+            Object lowestPriceObj = inputData.get("lowestPrice");
+
+            if (expectedPriceObj != null) {
+                marketDataInput.setExpected_price_after_week_tk_per_kg(
+                        Integer.parseInt(expectedPriceObj.toString()));
+            }
+            if (highestPriceObj != null) {
+                marketDataInput.setHighestPricePerKgOrUnit(
+                        Integer.parseInt(highestPriceObj.toString()));
+            }
+            if (lowestPriceObj != null) {
+                marketDataInput.setLowestPricePerKgOrUnit(
+                        Integer.parseInt(lowestPriceObj.toString()));
+            }
+            System.out.println(marketDataInput.getExpected_price_after_week_tk_per_kg());
+            System.out.println(marketDataInput.getHighestPricePerKgOrUnit());
+            System.out.println(marketDataInput.getLowestPricePerKgOrUnit());
+            analystDB.save_market_data(marketDataInput);
+
+            return ResponseEntity.ok("Data saved successfully!");
+        } catch (Exception e) {
+
+            return ResponseEntity.status(500).body("Failed to save data.");
         }
     }
 }

@@ -66,23 +66,26 @@
 <div class="container">
   <!-- Sidebar -->
   <aside class="sidebar">
-
-    <a href="/agent_input_market_data" class="active">Input Market Data</a>
-
+    <a href="/analyst_dashboard">Dashboard</a>
+    <a href="/analyst_market_prices">Market Price for Crops</a>
+    <a href="/analyst_graph_chart">Graph/Chart</a>
+    <a href="/analyst_index">Sign Out</a>
+    <a href="/analyst_input_market_data" class="active">Input Market Data</a>
   </aside>
 
   <!-- Main Content -->
   <main class="main-content">
     <div class="form-container">
       <h2>Input Data for Market Price</h2>
-      <form id="analystForm">
+      <form id="analystInputForm">
         <!-- Location Dropdown -->
         <div class="form-group">
-          label for="location">Select Location:</label>
+          <label for="location">Select Location:</label>
           <select id="location" name="location" required>
             <option value="" disabled selected>Select Location</option>
-            <<option th:each="location : ${locations}"
+            <option th:each="location : ${locations}"
                     th:value="${location.area_code}"
+                    th:data-name="${location.area_location}"
                     th:text="${location.area_location}">
             </option>
           </select>
@@ -95,23 +98,21 @@
             <option value="" disabled selected>Select Crop</option>
             <option th:each="crop : ${crops}"
                     th:value="${crop.cropID}"
+                    th:data-name="${crop.crop_name}"
                     th:text="${crop.crop_name}">
             </option>
           </select>
         </div>
 
         <div class="form-group">
-          <label for="season">Season:</label>
-          <input type="text" id="season" name="season" placeholder="Enter season (e.g., Winter)" required>
+          <label for="expectedPrice">Expected Price After Week (Tk per Kg):</label>
+          <input type="number" id="expectedPrice" name="expectedPrice" placeholder="Enter price after a week" required>
         </div>
 
-        <div class="form-group">
-          <label for="advisedRate">Advised Rate:</label>
-          <input type="number" id="advisedRate" name="advisedRate" placeholder="Enter advised rate" required>
-        </div>
+
 
         <div class="form-group">
-          <label for="reason">Reason:</label>
+          <label for="reason">Reason for Expected Rate:</label>
           <textarea id="reason" name="reason" placeholder="Enter reason for advised rate" rows="4" required></textarea>
         </div>
 
@@ -125,6 +126,16 @@
           <input type="text" id="supplyStatus" name="supplyStatus" placeholder="Enter supply status" required>
         </div>
 
+        <div class="form-group">
+          <label for="highestPrice">Highest Price (per Kg):</label>
+          <input type="number" id="highestPrice" name="highestPrice" placeholder="Enter highest price per Kg" required>
+        </div>
+
+        <div class="form-group">
+          <label for="lowestPrice">Lowest Price (per Kg):</label>
+          <input type="number" id="lowestPrice" name="lowestPrice" placeholder="Enter lowest price per Kg" required>
+        </div>
+
         <!-- Submit Button -->
         <button type="button" onclick="submitAnalystData()">Submit</button>
       </form>
@@ -133,30 +144,39 @@
 </div>
 
 <script>
-  async function submitAnalystData() {
+    async function submitAnalystData() {
     try {
-      const form = document.getElementById('analystForm');
-      const formData = new FormData(form);
+    const form = document.getElementById('analystInputForm');
+    const formData = new FormData(form);
+    const payload = Object.fromEntries(formData.entries());
+    // Convert FormData to a plain object
+    const entries = Object.fromEntries(formData.entries());
+    console.log('Payload to send:', payload); // Debug: Log the payload
 
-      const payload = Object.fromEntries(formData.entries());
-      const response = await fetch('/api/analyst-input', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload)
-      });
+    // Make the API request
+    const response = await fetch('/api/AnalystInputForm', {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify(payload)
+  });
 
-      if (response.ok) {
-        alert('Data submitted successfully!');
-        form.reset();
-      } else {
-        const error = await response.text();
-        alert(`Error: ${error}`);
-      }
-    } catch (error) {
-      console.error('Submission error:', error);
-      alert('An error occurred while submitting the data.');
-    }
+    if (response.ok) {
+    console.log('Data submitted successfully!');
+    alert('Data submitted successfully!');
+    form.reset();
+  } else {
+    const error = await response.text();
+    console.error('Server Error:', error); // Log error to console
+    alert(`Error: ${error}`);
   }
+  } catch (error) {
+    console.error('Submission Error:', error); // Log client-side errors
+    alert('An error occurred while submitting the data.');
+  }
+  }
+
+
+
 </script>
 </body>
 </html>

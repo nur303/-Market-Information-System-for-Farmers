@@ -1,6 +1,7 @@
 package com.example.demo2.farmerconnect;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -10,7 +11,7 @@ import java.util.List;
 public class AnalystController {
     @Autowired
     AnalystService analystService;
-
+    AnalystDB analystDB = new AnalystDB();
     AreaDB areaDB = new AreaDB();
     CropDB cropDB = new CropDB();
 
@@ -33,17 +34,31 @@ public class AnalystController {
     public String index() {
         return "analyst_index";
     }
+    @GetMapping("/analyst_input_market_data")
+    public String advised_rates() {return "analyst_input_for_market_price";}
+
 
 // modeling attribute
     // showing all market price
     @ModelAttribute("marketPrices")
     public List<AnalystMarketPriceAndAdvisedRates_T> allMarketData() {
 
-        return analystService.showMarketPriceAndRates();
+        return analystService.showMarketPriceAndRates();}
 
-    // showing all crop, area as option graphs and charts
+    @ModelAttribute("locations")
+    public List<Area_T> allLocationsForInputForm() {
+            return areaDB.showAllAreaData();
+        }
 
-    }
+
+    @ModelAttribute("crops")
+    public List<Crop_T> allCropsForInputForm() {
+        return cropDB.showAllCropData();
+        }
+
+        // showing all crop, area as option graphs and charts
+
+
     @ModelAttribute("locations")
     public List<Area_T> allLocations() {
         return areaDB.showAllAreaData();
