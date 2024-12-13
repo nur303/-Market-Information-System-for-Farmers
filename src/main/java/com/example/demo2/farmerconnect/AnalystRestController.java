@@ -75,7 +75,7 @@ public class AnalystRestController {
     @PostMapping("/api/AnalystInputForm")
     public ResponseEntity<String> handleFormSubmission(@RequestBody Map<String,Object >inputData) {
         try {
-            System.out.println("Received Input Data: " + inputData);
+//            System.out.println("Received Input Data: " + inputData);
             // saving data to handle class :
             marketDataInput.setCropID((String)inputData.get("crop"));
             marketDataInput.setAreaCode((String)inputData.get("location"));
@@ -166,7 +166,7 @@ public class AnalystRestController {
 
 
 //            System.out.println("Received Update Data: " + payload);
-
+//            System.out.println("updated data :"+marketDataInput.toString());
             // Call the database method to update the record
             boolean isUpdated =  analystDB.updateData(marketDataInput);
             if (isUpdated) {

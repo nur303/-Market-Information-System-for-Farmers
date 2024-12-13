@@ -81,8 +81,8 @@
     const row = document.createElement('tr');
     row.innerHTML = `
       <td>${price.updateDate}</td>
-      <td>${price.cropID}</td>
-      <td>${price.areaCode}</td>
+      <td>${price.cropName}</td>
+      <td>${price.area_location}</td>
       <td>${price.highestPricePerKgOrUnit}</td>
       <td>${price.lowestPricePerKgOrUnit}</td>
       <td>${price.expected_price_after_week_tk_per_kg}</td>
@@ -95,7 +95,7 @@
           Delete
         </button>
         <button type="button"
-                onclick="editMarketPrice(this)">
+                onclick="editMarketPrice('${price.updateDate}','${price.cropID}','${price.areaCode}',this)">
           Edit
         </button>
       </td>
@@ -106,15 +106,15 @@
   }
 
   // Function to handle editing a row
-  function editMarketPrice(button) {
+  function editMarketPrice(update_Date, crop_ID, area_code, button) {
     // Get the row that contains the clicked button
     const row = button.closest('tr');
 
     // Extract the current values from the row
     const cells = row.querySelectorAll('td');
-    const updateDate = cells[0].textContent.trim();
-    const cropID = cells[1].textContent.trim();
-    const areaCode = cells[2].textContent.trim();
+    const updateDate = update_Date;
+    const cropID = crop_ID;
+    const areaCode = area_code;
     const highestPrice = cells[3].textContent.trim();
     const lowestPrice = cells[4].textContent.trim();
     const expectedPrice = cells[5].textContent.trim();

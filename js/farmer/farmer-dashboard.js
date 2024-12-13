@@ -24,7 +24,7 @@ document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('profile-name').textContent = farmerData.name;
     document.getElementById('profile-phone').textContent = farmerData.phone;
     document.getElementById('profile-email').textContent = farmerData.email;
-    document.getElementById('profile-location').textContent = farmerData.location;
+    document.getElementById('profile-area_location').textContent = farmerData.location;
     document.getElementById('profile-regdate').textContent = farmerData.registrationDate;
 
     // Logout functionality

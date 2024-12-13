@@ -1,7 +1,6 @@
 package com.example.demo2.farmerconnect;
 
 import java.sql.*;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,7 +24,7 @@ public class AnalystDB {
 
     public List<AnalystMarketPriceAndAdvisedRates_T> showAllMarketData() {
         List<AnalystMarketPriceAndAdvisedRates_T> allMarketData = new ArrayList<>();
-        String sql = "SELECT update_date, cropid, area_code, reason_for_advised_rate, expected_price_after_week_tk_per_kg, highest_price_per_kg_or_unit, lowest_price_per_kg_or_unit, current_demand_status, current_supply_status FROM MARKET_PRICE_FOR_CROPS_AND_ADVISED_RATES_T";
+        String sql = "SELECT mp.update_date,mp.cropid,mp.area_code, mp.reason_for_advised_rate, mp.expected_price_after_week_tk_per_kg, mp.highest_price_per_kg_or_unit, mp.lowest_price_per_kg_or_unit, mp.current_demand_status, mp.current_supply_status , c.crop_name, a.area_location FROM MARKET_PRICE_FOR_CROPS_AND_ADVISED_RATES_T mp JOIN Area_T a ON mp.area_code = a.area_code JOIN Crop_T c ON mp.cropid = c.cropid";
         try {
             PreparedStatement ps = conn.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
@@ -42,7 +41,8 @@ public class AnalystDB {
                 marketData.setLowestPricePerKgOrUnit(rs.getInt(7));  // Set Lowest Price
                 marketData.setCurrent_demand_status(rs.getString(8));  // Set Current Demand Status
                 marketData.setCurrent_supply_status(rs.getString(9));  // Set Current Supply Status
-
+                marketData.setCropName(rs.getString(10));
+                marketData.setArea_location(rs.getString(11));
                 allMarketData.add(marketData);
             }
             rs.close();
@@ -99,7 +99,8 @@ public class AnalystDB {
         String sql = "UPDATE MARKET_PRICE_FOR_CROPS_AND_ADVISED_RATES_T " +
                 "SET highest_price_per_kg_or_unit = ?, lowest_price_per_kg_or_unit = ?, expected_price_after_week_tk_per_kg = ?, " +
                 "reason_for_advised_rate = ?, current_demand_status = ?, current_supply_status = ? " +
-                "WHERE update_date = ? AND cropid = ? AND area_code = ?";
+                "WHERE update_date = ? AND cropID = ? AND area_code = ?";
+
         try (PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setInt(1, updatedData.getHighestPricePerKgOrUnit());
             ps.setInt(2, updatedData.getLowestPricePerKgOrUnit());
