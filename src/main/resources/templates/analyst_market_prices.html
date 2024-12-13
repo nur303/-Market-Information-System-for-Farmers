@@ -12,7 +12,7 @@
   <aside class="sidebar">
     <a href="/analyst_dashboard">Dashboard</a>
     <a href="/analyst_market_prices" class="active">Market Price for Crops</a>
-    <a href="/analyst_input_market_data" >Input Market Data</a>
+    <a href="/analyst_input_market_data">Input Market Data</a>
     <a href="/analyst_graph_chart">Graph/Chart</a>
     <a href="/analyst_index">Sign Out</a>
   </aside>
@@ -32,24 +32,175 @@
         <th>Reason for Expected Price</th>
         <th>Demand Status</th>
         <th>Supply Status</th>
+        <th>Actions</th>
       </tr>
       </thead>
-      <tbody>
-      <!-- Dynamically render rows -->
-      <tr th:each="price : ${marketPrices}">
-        <td th:text="${price.update_date}"></td>
-        <td th:text="${price.cropID}"></td>
-        <td th:text="${price.areaCode}"></td>
-        <td th:text="${price.highestPricePerKgOrUnit}"></td>
-        <td th:text="${price.lowestPricePerKgOrUnit}"></td>
-        <td th:text="${price.expected_price_after_week_tk_per_kg}"></td>
-        <td th:text="${price.reason_for_advised_rate}"></td>
-        <td th:text="${price.current_demand_status}"></td>
-        <td th:text="${price.current_supply_status}"></td>
-      </tr>
+      <tbody id="marketPricesTable">
+
       </tbody>
     </table>
   </main>
 </div>
+
+<script>
+  // Example function to fetch market prices and populate the table
+  async function fetchAndRenderMarketPrices() {
+    try {
+      const response = await fetch('/marketPrices');
+      if (!response.ok) {
+        throw new Error('Failed to fetch market prices');
+      }
+
+      const marketPrices = await response.json();
+      populateMarketPricesTable(marketPrices); // Call to populate the table
+    } catch (error) {
+      console.error('Error fetching market prices:', error);
+      alert('An error occurred while fetching market prices.');
+    }
+  }
+
+  // Trigger the fetch and populate on page load
+  window.onload = fetchAndRenderMarketPrices;
+  // Function to process and populate the table with marketPrices
+  function populateMarketPricesTable(marketPrices) {
+    // Clear the table body before adding new rows
+    const tableBody = document.getElementById('marketPricesTable');
+    tableBody.innerHTML = '';
+
+    // Loop through each marketPrice and call inputMarketPrice
+    marketPrices.forEach((price) => {
+      inputMarketPrice(price);
+    });
+  }
+
+  // Function to add a single market price row to the table
+  function inputMarketPrice(price) {
+    const tableBody = document.getElementById('marketPricesTable');
+
+    // Create a new row
+    const row = document.createElement('tr');
+    row.innerHTML = `
+      <td>${price.updateDate}</td>
+      <td>${price.cropID}</td>
+      <td>${price.areaCode}</td>
+      <td>${price.highestPricePerKgOrUnit}</td>
+      <td>${price.lowestPricePerKgOrUnit}</td>
+      <td>${price.expected_price_after_week_tk_per_kg}</td>
+      <td>${price.reason_for_advised_rate}</td>
+      <td>${price.current_demand_status}</td>
+      <td>${price.current_supply_status}</td>
+      <td>
+        <button type="button"
+                onclick="deleteMarketPrice('${price.updateDate}', '${price.cropID}', '${price.areaCode}', this)">
+          Delete
+        </button>
+        <button type="button"
+                onclick="editMarketPrice(this)">
+          Edit
+        </button>
+      </td>
+    `;
+
+    // Append the new row to the table body
+    tableBody.appendChild(row);
+  }
+
+  // Function to handle editing a row
+  function editMarketPrice(button) {
+    // Get the row that contains the clicked button
+    const row = button.closest('tr');
+
+    // Extract the current values from the row
+    const cells = row.querySelectorAll('td');
+    const updateDate = cells[0].textContent.trim();
+    const cropID = cells[1].textContent.trim();
+    const areaCode = cells[2].textContent.trim();
+    const highestPrice = cells[3].textContent.trim();
+    const lowestPrice = cells[4].textContent.trim();
+    const expectedPrice = cells[5].textContent.trim();
+    const reason = cells[6].textContent.trim();
+    const demandStatus = cells[7].textContent.trim();
+    const supplyStatus = cells[8].textContent.trim();
+
+    // Prompt the user to edit each field
+
+    const newHighestPrice = prompt('Enter new Highest Price:', highestPrice) || highestPrice;
+    const newLowestPrice = prompt('Enter new Lowest Price:', lowestPrice) || lowestPrice;
+    const newExpectedPrice = prompt('Enter new Expected Price After Week:', expectedPrice) || expectedPrice;
+    const newReason = prompt('Enter new Reason for Expected Price:', reason) || reason;
+    const newDemandStatus = prompt('Enter new Demand Status:', demandStatus) || demandStatus;
+    const newSupplyStatus = prompt('Enter new Supply Status:', supplyStatus) || supplyStatus;
+
+    // Prepare payload for the update
+    const payload = {
+      updateDate,
+      cropID,
+      areaCode,
+      highestPrice: newHighestPrice,
+      lowestPrice: newLowestPrice,
+      expectedPriceAfterWeek: newExpectedPrice,
+      reasonForAdvisedRate: newReason,
+      demandStatus: newDemandStatus,
+      supplyStatus: newSupplyStatus,
+    };
+
+    // Send the updated data to the backend
+    fetch('/api/update-market-price', {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+    })
+            .then((response) => {
+              if (response.ok) {
+                alert('Record updated successfully!');
+                // Update the row with the new values
+                cells[3].textContent = newHighestPrice;
+                cells[4].textContent = newLowestPrice;
+                cells[5].textContent = newExpectedPrice;
+                cells[6].textContent = newReason;
+                cells[7].textContent = newDemandStatus;
+                cells[8].textContent = newSupplyStatus;
+              } else {
+                response.text().then((error) => alert(`Error updating record: ${error}`));
+              }
+            })
+            .catch((error) => {
+              console.error('Error updating record:', error);
+              alert('An error occurred while updating the record.');
+            });
+  }
+
+
+  // Function to handle the delete operation
+  async function deleteMarketPrice(updateDate, cropID, areaCode, button) {
+    const payload = {
+      updateDate: updateDate,
+      cropID: cropID,
+      areaCode: areaCode,
+    };
+
+    try {
+      // Sending DELETE request to the server
+      const response = await fetch('/api/delete-market-price', {
+        method: 'DELETE',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      });
+
+      if (response.ok) {
+        alert('Record deleted successfully!');
+        // Remove the row from the table
+        button.closest('tr').remove();
+      } else {
+        const error = await response.text();
+        alert(`Error deleting record: ${error}`);
+      }
+    } catch (error) {
+      console.error('Error:', error);
+      alert('An error occurred while deleting the record.');
+    }
+  }
+
+</script>
 </body>
 </html>

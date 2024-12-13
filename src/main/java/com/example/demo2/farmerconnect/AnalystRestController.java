@@ -14,6 +14,8 @@ import java.util.Map;
 public class AnalystRestController {
     AnalystMarketPriceAndAdvisedRates_T marketDataInput = new AnalystMarketPriceAndAdvisedRates_T();
     AnalystDB analystDB = new AnalystDB();
+    AnalystService analystService = new AnalystService();
+
     Connection conn;
     {  // runs when an instance is created..
         try
@@ -76,16 +78,10 @@ public class AnalystRestController {
             System.out.println("Received Input Data: " + inputData);
             // saving data to handle class :
             marketDataInput.setCropID((String)inputData.get("crop"));
-            System.out.println(marketDataInput.getCropID());
             marketDataInput.setAreaCode((String)inputData.get("location"));
-            System.out.println(marketDataInput.getAreaCode());
             marketDataInput.setCurrent_supply_status((String)inputData.get("supplyStatus"));
-            System.out.println(marketDataInput.getCurrent_supply_status());
             marketDataInput.setReason_for_advised_rate( (String)inputData.get("reason"));
-            System.out.println(marketDataInput.getReason_for_advised_rate());
             marketDataInput.setCurrent_demand_status((String)inputData.get("demandStatus"));
-            System.out.println(marketDataInput.getCurrent_demand_status());
-
             // Convert expectedPrice, highestPrice, and lowestPrice to Integer
             Object expectedPriceObj = inputData.get("expectedPrice");
             Object highestPriceObj = inputData.get("highestPrice");
@@ -103,9 +99,7 @@ public class AnalystRestController {
                 marketDataInput.setLowestPricePerKgOrUnit(
                         Integer.parseInt(lowestPriceObj.toString()));
             }
-            System.out.println(marketDataInput.getExpected_price_after_week_tk_per_kg());
-            System.out.println(marketDataInput.getHighestPricePerKgOrUnit());
-            System.out.println(marketDataInput.getLowestPricePerKgOrUnit());
+
             analystDB.save_market_data(marketDataInput);
 
             return ResponseEntity.ok("Data saved successfully!");
@@ -114,4 +108,77 @@ public class AnalystRestController {
             return ResponseEntity.status(500).body("Failed to save data.");
         }
     }
+
+    @GetMapping("/marketPrices")
+    public ResponseEntity<List<AnalystMarketPriceAndAdvisedRates_T>> getMarketPrices() {
+        return ResponseEntity.ok(analystService.showMarketPriceAndRates());
+    }
+
+    @DeleteMapping("/api/delete-market-price")
+    public ResponseEntity<String> deleteMarketPrice(@RequestBody Map<String, Object> payload) {
+        try {
+            // Extract necessary parameters from the payload
+//            String updateDate = (String) payload.get("updateDate");
+
+            // Print the date to the console
+//            System.out.println("Received Update Date: " + updateDate);
+            String cropID = (String) payload.get("cropID");
+            String areaCode = (String) payload.get("areaCode");
+            LocalDate updateDate = LocalDate.parse((String) payload.get("updateDate"));
+            java.sql.Date sqlDate = java.sql.Date.valueOf(updateDate);
+//
+            // Perform the deletion using the repository
+            marketDataInput = new AnalystMarketPriceAndAdvisedRates_T(sqlDate, cropID, areaCode);
+            System.out.println(analystDB.deleteData(marketDataInput));
+            return ResponseEntity.ok("Record deleted successfully!");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Failed to delete the record.");
+        }
+    }
+    @PutMapping("/api/update-market-price")
+    public ResponseEntity<String> updateMarketPrice(@RequestBody Map<String,Object> payload) {
+        try {
+            LocalDate updateDate = LocalDate.parse((String) payload.get("updateDate"));
+            java.sql.Date sqlDate = java.sql.Date.valueOf(updateDate);
+            marketDataInput.setUpdateDate(sqlDate);
+            marketDataInput.setCropID((String)payload.get("cropID"));
+            marketDataInput.setAreaCode((String)payload.get("areaCode"));
+            marketDataInput.setCurrent_supply_status((String)payload.get("supplyStatus"));
+            marketDataInput.setReason_for_advised_rate( (String)payload.get("reasonForAdvisedRate"));
+            marketDataInput.setCurrent_demand_status((String)payload.get("demandStatus"));
+            Object expectedPriceObj = payload.get("expectedPriceAfterWeek");
+            Object highestPriceObj = payload.get("highestPrice");
+            Object lowestPriceObj = payload.get("lowestPrice");
+
+            if (expectedPriceObj != null) {
+                marketDataInput.setExpected_price_after_week_tk_per_kg(
+                        Integer.parseInt(expectedPriceObj.toString()));
+            }
+            if (highestPriceObj != null) {
+                marketDataInput.setHighestPricePerKgOrUnit(
+                        Integer.parseInt(highestPriceObj.toString()));
+            }
+            if (lowestPriceObj != null) {
+                marketDataInput.setLowestPricePerKgOrUnit(
+                        Integer.parseInt(lowestPriceObj.toString()));
+            }
+
+
+//            System.out.println("Received Update Data: " + payload);
+
+            // Call the database method to update the record
+            boolean isUpdated =  analystDB.updateData(marketDataInput);
+            if (isUpdated) {
+                return ResponseEntity.ok("Record updated successfully!");
+            } else {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No matching record found to update.");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to update record.");
+        }
+    }
+
 }
+

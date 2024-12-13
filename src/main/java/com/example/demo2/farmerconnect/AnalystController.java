@@ -39,11 +39,6 @@ public class AnalystController {
 
 
 // modeling attribute
-    // showing all market price
-    @ModelAttribute("marketPrices")
-    public List<AnalystMarketPriceAndAdvisedRates_T> allMarketData() {
-
-        return analystService.showMarketPriceAndRates();}
 
     @ModelAttribute("locations")
     public List<Area_T> allLocationsForInputForm() {

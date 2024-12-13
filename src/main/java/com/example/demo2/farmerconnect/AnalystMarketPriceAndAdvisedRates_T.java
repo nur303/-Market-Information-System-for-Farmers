@@ -3,6 +3,7 @@ package com.example.demo2.farmerconnect;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import java.sql.Date;
@@ -11,10 +12,11 @@ import java.time.LocalDate;
 @Data
 @Entity
 @Table(name = "MARKET_PRICE_FOR_CROPS_AND_ADVISED_RATES_T")
+
 public class AnalystMarketPriceAndAdvisedRates_T {
 
     @Id
-    private Date update_date;
+    private Date updateDate;
     @Id
     private String cropID;
 
@@ -44,7 +46,11 @@ public class AnalystMarketPriceAndAdvisedRates_T {
 
     }
 
-
+    public AnalystMarketPriceAndAdvisedRates_T(Date update_date, String cropID, String areaCode) {
+        this.updateDate = update_date;
+        this.cropID = cropID;
+        this.areaCode = areaCode;
+    }
     // Getters and Setters
     // ...
 }

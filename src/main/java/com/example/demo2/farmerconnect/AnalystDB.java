@@ -33,7 +33,7 @@ public class AnalystDB {
                 AnalystMarketPriceAndAdvisedRates_T marketData = new AnalystMarketPriceAndAdvisedRates_T();
 
                 // Assuming update_date is of type java.sql.Date
-                marketData.setUpdate_date(rs.getDate(1));  // Use getUpdate_date for update_date fields
+                marketData.setUpdateDate(rs.getDate(1));  // Use getUpdate_date for update_date fields
                 marketData.setCropID(rs.getString(2));  // Set Crop ID
                 marketData.setAreaCode(rs.getString(3));  // Set Area Code
                 marketData.setReason_for_advised_rate(rs.getString(4));  // Set Reason for Advised Rate
@@ -74,6 +74,53 @@ public class AnalystDB {
             throw new RuntimeException(e);
         }
     }
+    public boolean deleteData(AnalystMarketPriceAndAdvisedRates_T bigData ) {
+        Date updateDate = bigData.getUpdateDate();
+        String cropID = bigData.getCropID();
+        String areaCode = bigData.getAreaCode();
+        String sql = "DELETE FROM MARKET_PRICE_FOR_CROPS_AND_ADVISED_RATES_T WHERE update_date = ? AND cropid = ? AND area_code = ?";
+        try {
+            PreparedStatement ps = conn.prepareStatement(sql);
+
+            // Set primary key parameters
+            ps.setDate(1, updateDate);
+            ps.setString(2, cropID);
+            ps.setString(3, areaCode);
+
+            int affectedRows = ps.executeUpdate();
+            ps.close();
+            return affectedRows > 0; // Returns true if a row was deleted
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+    public boolean updateData(AnalystMarketPriceAndAdvisedRates_T updatedData) {
+        String sql = "UPDATE MARKET_PRICE_FOR_CROPS_AND_ADVISED_RATES_T " +
+                "SET highest_price_per_kg_or_unit = ?, lowest_price_per_kg_or_unit = ?, expected_price_after_week_tk_per_kg = ?, " +
+                "reason_for_advised_rate = ?, current_demand_status = ?, current_supply_status = ? " +
+                "WHERE update_date = ? AND cropid = ? AND area_code = ?";
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, updatedData.getHighestPricePerKgOrUnit());
+            ps.setInt(2, updatedData.getLowestPricePerKgOrUnit());
+            ps.setInt(3, updatedData.getExpected_price_after_week_tk_per_kg());
+            ps.setString(4, updatedData.getReason_for_advised_rate());
+            ps.setString(5, updatedData.getCurrent_demand_status());
+            ps.setString(6, updatedData.getCurrent_supply_status());
+            ps.setDate(7, updatedData.getUpdateDate());
+            ps.setString(8, updatedData.getCropID());
+            ps.setString(9, updatedData.getAreaCode());
+
+            int rowsAffected = ps.executeUpdate();
+            return rowsAffected > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+
+
 
 
 
