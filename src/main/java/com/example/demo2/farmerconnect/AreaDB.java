@@ -21,9 +21,11 @@ public class AreaDB {
         }
     }
     public void save_area_data(Area_T bigData ){
+
         String sql = "insert  INTO AREA_T (area_code,area_location) VALUES(?,?)";
 
         try {
+            System.out.println(bigData.getArea_location()+ "from DB");
             PreparedStatement ps = conn.prepareStatement(sql);
             ps.setString(1, bigData.getArea_code());
             ps.setString(2, bigData.getArea_location());

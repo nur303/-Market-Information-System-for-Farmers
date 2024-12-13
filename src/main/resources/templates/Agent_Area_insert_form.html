@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Area Insertion Form</title>
+    <link rel="stylesheet" href="analyst.css">
+    <style>
+        /* Sidebar styling */
+        .container {
+            display: flex;
+        }
+
+        .sidebar {
+            width: 200px;
+            background-color: #333;
+            padding: 20px;
+            color: white;
+            height: 100vh;
+            position: fixed;
+        }
+
+        .sidebar a {
+            color: white;
+            text-decoration: none;
+            display: block;
+            margin-bottom: 15px;
+            font-size: 16px;
+        }
+
+        .sidebar a:hover, .sidebar a.active {
+            background-color: #4CAF50;
+            padding: 10px;
+            border-radius: 5px;
+        }
+
+        /* Main content styling */
+        .main-content {
+            margin-left: 220px; /* Adjust to match sidebar width */
+            padding: 20px;
+            width: 100%;
+        }
+
+        .form-container {
+            max-width: 400px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #f9f9f9;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        input, button {
+            width: 100%;
+            padding: 10px;
+            font-size: 14px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+
+        button {
+            font-size: 16px;
+            font-weight: bold;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <a href="/dashboard">Dashboard</a>
+        <a href="/market_prices">Market Prices</a>
+        <a href="/agents">Agent Profile</a>
+
+        <a href="/agent_area_insertion" class="active">Area Insertion Form</a>
+        <a href="/logout">Sign Out</a>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="form-container">
+            <h2>Area Insertion Form</h2>
+            <form id="areaInsertionForm">
+                <div class="form-group">
+                    <label for="areaCode">Area Code:(must be in 6 letters)</label>
+                    <input type="text" id="areaCode" name="areaCode" placeholder="Enter area code" required>
+                </div>
+                <div class="form-group">
+                    <label for="areaLocation">Area Location:</label>
+                    <input type="text" id="areaLocation" name="areaLocation" placeholder="Enter area location" required>
+                </div>
+                <button type="button" onclick="submitAreaData()">Submit</button>
+            </form>
+        </div>
+    </main>
+</div>
+
+<script>
+    async function submitAreaData() {
+        try {
+            const form = document.getElementById('areaInsertionForm');
+            const formData = new FormData(form);
+            const payload = Object.fromEntries(formData.entries());
+
+            // Validate area code
+            const areaCode = payload.areaCode;
+            if (!/^[A-Za-z0-9]{6}$/.test(areaCode)) {
+                alert('Area Code must be exactly 6 alphanumeric characters (letters and/or numbers).');
+                return "Can't submit.";
+            }
+
+            console.log('Payload to send:', payload); // Debug: Log the payload
+
+            const response = await fetch('/api/AreaInsertion', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            });
+
+            if (response.ok) {
+                console.log('Area inserted successfully!');
+                alert('Area inserted successfully!');
+                form.reset();
+            } else {
+                const error = await response.text();
+                console.error('Server Error:', error);
+                alert(`Error: ${error}`);
+            }
+        } catch (error) {
+            console.error('Submission Error:', error);
+            alert('An error occurred while submitting the area data.');
+        }
+    }
+</script>
+
+</body>
+</html>
