@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Advised Rates</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <a href="index.html">Dashboard</a>
+      <a href="market-prices.html">Market Price for Crops</a>
+      <a href="advised-rates.html" class="active">Advised Rates</a>
+      <a href="graph-chart.html">Graph/Chart</a>
+      <a href="index.html">Sign Out</a>
+    </aside>
+    <!-- Main Content -->
+    <main class="main-content">
+      <h1>Advised Rates</h1>
+      <table>
+        <thead>
+          <tr>
+            <th>Crop ID</th>
+            <th>Crop Name</th>
+            <th>Season</th>
+            <th>Area Code</th>
+            <th>Location</th>
+            <th>Advised Rate</th>
+            <th>Reason</th>
+            <th>Highest Price (per kg)</th>
+            <th>Lowest Price (per kg)</th>
+            <th>Demand Status</th>
+            <th>Supply Status</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>001</td>
+            <td>Wheat</td>
+            <td>Winter</td>
+            <td>1234</td>
+            <td>Location A</td>
+            <td>$16</td>
+            <td>High demand</td>
+            <td>$20</td>
+            <td>$15</td>
+            <td>High</td>
+            <td>Low</td>
+            <td><button class="edit-btn" onclick="openEditOverlay('advised')">Edit</button></td>
+          </tr>
+        </tbody>
+      </table>
+    </main>
+  </div>
+
+  <!-- Transparent Overlay for Editing -->
+  <div id="edit-overlay-advised" class="overlay">
+    <div class="overlay-content">
+      <h2>Edit Advised Rates</h2>
+      <form>
+        <label for="crop-id">Crop ID:</label>
+        <input type="text" id="crop-id" name="crop-id" required>
+
+        <label for="crop-name">Crop Name:</label>
+        <input type="text" id="crop-name" name="crop-name" required>
+
+        <label for="season">Season:</label>
+        <input type="text" id="season" name="season" required>
+
+        <label for="area-code">Area Code:</label>
+        <input type="text" id="area-code" name="area-code" required>
+
+        <label for="location">Location:</label>
+        <input type="text" id="location" name="location" required>
+
+        <label for="advised-rate">Advised Rate:</label>
+        <input type="number" id="advised-rate" name="advised-rate" required>
+
+        <label for="reason">Reason:</label>
+        <textarea id="reason" name="reason" required></textarea>
+
+        <label for="demand-status">Demand Status:</label>
+        <input type="text" id="demand-status" name="demand-status" required>
+
+        <label for="supply-status">Supply Status:</label>
+        <input type="text" id="supply-status" name="supply-status" required>
+
+        <div class="form-buttons">
+          <button type="submit" class="submit-btn">Submit</button>
+          <button type="button" class="cancel-btn" onclick="closeEditOverlay('advised')">Cancel</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    // JavaScript to open and close the overlay
+    function openEditOverlay(type) {
+      document.getElementById(`edit-overlay-${type}`).style.display = 'block';
+    }
+
+    function closeEditOverlay(type) {
+      document.getElementById(`edit-overlay-${type}`).style.display = 'none';
+    }
+  </script>
+</body>
+</html>
