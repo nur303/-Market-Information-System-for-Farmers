@@ -1,0 +1,154 @@
+/* General Body Styles */
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background-color: #f4f9f4;
+}
+
+.container {
+  display: flex;
+}
+
+.sidebar {
+  width: 250px;
+  background-color: #8fbc8f;
+  color: white;
+  height: 100vh;
+  padding: 20px;
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+}
+
+.sidebar a {
+  display: block;
+  color: white;
+  text-decoration: none;
+  padding: 10px 0;
+  margin: 5px 0;
+}
+
+.sidebar a.active {
+  font-weight: bold;
+  text-decoration: underline;
+}
+
+.main-content {
+  flex: 1;
+  padding: 20px;
+}
+
+.employee-info img {
+  width: 100px;
+  border-radius: 50%;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 20px 0;
+}
+
+table th, table td {
+  text-align: left;
+  border: 1px solid #ddd;
+  padding: 10px;
+}
+
+.edit-btn {
+  background-color: #6b8e23;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  cursor: pointer;
+}
+
+.edit-btn:hover {
+  background-color: #556b2f;
+}
+
+/* Overlay Styles */
+.overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+}
+
+.overlay-content {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  width: 400px;
+  max-width: 90%;
+}
+
+.overlay-content h2 {
+  margin-top: 0;
+  font-size: 24px;
+  color: #333;
+}
+
+.overlay-content form {
+  display: flex;
+  flex-direction: column;
+}
+
+.overlay-content label {
+  margin-bottom: 5px;
+  font-weight: bold;
+  color: #555;
+}
+
+.overlay-content input,
+.overlay-content textarea,
+.overlay-content select {
+  margin-bottom: 15px;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 14px;
+  width: calc(100% - 22px); /* Adjusted for padding and border */
+}
+
+.overlay-content textarea {
+  resize: none;
+}
+
+.form-buttons {
+  display: flex;
+  justify-content: space-between;
+}
+
+.form-buttons .submit-btn {
+  background-color: #6b8e23;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.form-buttons .submit-btn:hover {
+  background-color: #556b2f;
+}
+
+.form-buttons .cancel-btn {
+  background-color: #c0392b;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.form-buttons .cancel-btn:hover {
+  background-color: #a93226;
+}
