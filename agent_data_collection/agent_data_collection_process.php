@@ -1,6 +1,5 @@
 <?php
-<a class="nav-link text-white" href="agent_graph.php">Graph View</a>
-
+include('connect.php');
 
 // Enable error reporting for debugging
 ini_set('display_errors', 1);

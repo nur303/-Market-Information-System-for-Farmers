@@ -28,14 +28,16 @@
                 <ul class="nav flex-column">
 
                     <li class="nav-item">
-                        <a class="nav-link text-white" href="/agent_data_collection/agent_data_collection_index.php">Data Collection</a>
+                        <a class="nav-link text-white" href="agent_data_collection/agent_data_collection_index.php">Data Collection</a>
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link text-white" href="/agent_bid_create/agent_bid_index.php">Crops For Bidding</a>
+                        <a class="nav-link text-white" href="agent_bid_create/agent_bid_index.php">Crops For Bidding</a>
                     </li>
 
-                    
+                    <li class="nav-item">
+                        <a class="nav-link text-white" href="agent_sales_directory/agent_sales_index.php">Sales Directory</a>
+                    </li>
 
                     <li class="nav-item">
                         <a class="nav-link text-white" href="advised-rates.html">Analysis View</a>
