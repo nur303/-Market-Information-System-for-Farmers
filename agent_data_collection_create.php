@@ -18,7 +18,7 @@
         
         <form action="agent_data_collection_process.php" method="post">
             <div class="form-element my-4">
-                <input type="text" class="form-control" name="farmer_id" placeholder="Farmer ID">
+                <input type="text" class="form-control" name="data_collection_id" placeholder="Data Collection ID">
             </div>
 
             <div class="form-element my-4">
@@ -26,7 +26,7 @@
             </div>
 
             <div class="form-element my-4">
-                <input type="number" class="form-control" name="crop_quantity" placeholder="Crop Quantity">
+                <input type="text" class="form-control" name="farmer_id" placeholder="Farmer ID">
             </div>
 
             <div class="form-element my-4">

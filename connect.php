@@ -1,5 +1,5 @@
 <?php
-$dbName = "farmerConnect";
+$dbName = "FarmerConnect";
 $dbHost = "localhost";
 $dbUser = "root";
 $dbPass = "";

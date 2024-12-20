@@ -19,9 +19,9 @@
         <table class="table table-bordered">
             <thead>
                 <tr>
-                    <th>Farmer ID</th>
+                    <th>Data Collection ID</th>
                     <th>Crop ID</th>
-                    <th>Crop Quantity</th>
+                    <th>Farmer ID</th>
                     <th>Location</th>
                     <th>Expected Price</th>
                     <th>Action</th>
@@ -35,14 +35,14 @@
                 while ($data = mysqli_fetch_array($result)) {
                 ?>
                     <tr>
-                        <td><?php echo $data['farmer_id']; ?></td>
+                        <td><?php echo $data['data_collection_id']; ?></td>
                         <td><?php echo $data['crop_id']; ?></td>
-                        <td><?php echo $data['crop_quantity']; ?></td>
+                        <td><?php echo $data['farmer_id']; ?></td>
                         <td><?php echo $data['location']; ?></td>
                         <td><?php echo $data['expected_price']; ?></td>
                         <td>
-                            <a href="agent_data_collection_edit.php?id=<?php echo $data['farmer_id']; ?>" class="btn btn-warning">Edit</a>
-                            <a href="agent_data_collection_delete.php?id=<?php echo $data['farmer_id']; ?>" class="btn btn-danger">Delete</a>
+                            <a href="agent_data_collection_edit.php?id=<?php echo $data['data_collection_id']; ?>" class="btn btn-warning">Edit</a>
+                            <a href="agent_data_collection_delete.php?id=<?php echo $data['data_collection_id']; ?>" class="btn btn-danger">Delete</a>
                         </td>
                     </tr>
                 <?php

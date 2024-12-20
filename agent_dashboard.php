@@ -12,68 +12,101 @@
             margin: 0;
         }
         .sidebar {
-            height: 100vh; /* Full height for the sidebar */
+            height: 100vh;
         }
         .main-content {
-            height: 100vh; /* Full height for the main content */
-            overflow-y: auto; /* Enable scrolling if content overflows */
+            height: 100vh;
+            overflow-y: auto;
+        }
+        .profile-image {
+            width: 200px;
+            height: 200px;
+            object-fit: cover;
+            border: 4px solid #198754;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        .employee-card {
+            background-color: #f8f9fa;
+            border-radius: 15px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        }
+        .list-group-item {
+            background-color: transparent;
+            border-left: none;
+            border-right: none;
+            padding: 1rem 1.25rem;
+        }
+        .card-title {
+            color: #198754;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
         }
     </style>
 </head>
 <body>
+    <?php
+    include 'connect.php';
+    $sql = "SELECT COUNT(*) as total_bids FROM agent_bid_create_db";
+    $result = mysqli_query($conn, $sql);
+    $row = mysqli_fetch_assoc($result);
+    $total_bids = $row['total_bids'];
+    mysqli_close($conn);
+    ?>
+
     <div class="container-fluid h-100">
         <div class="row h-100">
             <!-- Sidebar -->
             <nav class="col-md-3 col-lg-2 d-md-block bg-success text-white sidebar p-3">
                 <ul class="nav flex-column">
-
                     <li class="nav-item">
                         <a class="nav-link text-white" href="agent_data_collection_index.php">Data Collection</a>
                     </li>
-
                     <li class="nav-item">
                         <a class="nav-link text-white" href="agent_bid_index.php">Crops For Bidding</a>
                     </li>
-
-                    <li class="nav-item">
-                        <a class="nav-link text-white" href="agent_sales_index.php">Sales Directory</a>
-                    </li>
-
+        
                     <li class="nav-item">
                         <a class="nav-link text-white" href="advised-rates.html">Analysis View</a>
                     </li>
-                    
                     <li class="nav-item">
                         <a class="nav-link text-white" href="agent_graph.php">Graph View</a>
                     </li>
-
                     <li class="nav-item">
                         <a class="nav-link text-white" href="index.php">Sign Out</a>
                     </li>
-
                 </ul>
             </nav>
 
             <!-- Main Content -->
             <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 main-content">
-                <h1 class="mt-4">Dashboard</h1>
-                <div class="card mt-4">
-                    <div class="row g-0">
-                        <div class="col-md-4 text-center p-4">
-                            <img src="market_analyst.jpg" class="img-fluid rounded-circle" alt="Employee Photo" width="150">
+                <h1 class="mt-4 mb-4">Dashboard</h1>
+                <div class="card employee-card">
+                    <div class="row g-0 p-4">
+                        <div class="col-md-4 text-center d-flex flex-column align-items-center justify-content-center">
+                            <img src="agent_pitak.jpg" class="profile-image rounded-circle mb-3" alt="Employee Photo">
+                            <h4 class="mb-0">Pitak Chakma</h4>
+                            <p class="text-muted">Agent</p>
                         </div>
                         <div class="col-md-8">
                             <div class="card-body">
                                 <h5 class="card-title">Employee Details</h5>
                                 <ul class="list-group list-group-flush">
-                                    <li class="list-group-item"><strong>Employee ID:</strong> 12345</li>
-                                    <li class="list-group-item"><strong>Employee Name:</strong> John Doe</li>
-                                    <li class="list-group-item"><strong>Email:</strong> john.doe@example.com</li>
-                                    <li class="list-group-item"><strong>Date of Joining:</strong> 2020-01-01</li>
-                                    <li class="list-group-item"><strong>Age:</strong> 30</li>
-                                    <li class="list-group-item"><strong>Gender:</strong> Male</li>
-                                    <li class="list-group-item"><strong>Salary:</strong> $50,000</li>
-                                    <li class="list-group-item"><strong>Working Days:</strong> 250</li>
+                                    <li class="list-group-item d-flex justify-content-between">
+                                        <strong>Employee ID:</strong>
+                                        <span>E001</span>
+                                    </li>
+                                    <li class="list-group-item d-flex justify-content-between">
+                                        <strong>Email:</strong>
+                                        <span>pitakchakma5@gmail.com</span>
+                                    </li>
+                                    <li class="list-group-item d-flex justify-content-between">
+                                        <strong>Age:</strong>
+                                        <span>22</span>
+                                    </li>
+                                    <li class="list-group-item d-flex justify-content-between">
+                                        <strong>Total Number of Bids:</strong>
+                                        <span class="badge bg-success rounded-pill fs-6"><?php echo $total_bids; ?></span>
+                                    </li>
                                 </ul>
                             </div>
                         </div>

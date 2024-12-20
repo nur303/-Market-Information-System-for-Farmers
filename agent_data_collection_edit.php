@@ -20,14 +20,14 @@
             if (isset($_GET['id'])) {
                 include("connect.php");
                 $id = $_GET['id'];
-                $sql = "SELECT * FROM agent_data_collection_db WHERE farmer_id='$id'";
+                $sql = "SELECT * FROM agent_data_collection_db WHERE data_collection_id='$id'";
                 $result = mysqli_query($conn, $sql);
 
                 if ($row = mysqli_fetch_array($result)) {
             ?>
                 <div class="form-element my-4">
-                    <label for="farmer_id" class="form-label">Farmer ID</label>
-                    <input type="text" class="form-control" name="farmer_id" id="farmer_id" value="<?php echo $row['farmer_id']; ?>" readonly>
+                    <label for="data_collection_id" class="form-label">Data Collection ID</label>
+                    <input type="text" class="form-control" name="data_collection_id" id="data_collection_id" value="<?php echo $row['data_collection_id']; ?>" readonly>
                 </div>
 
                 <div class="form-element my-4">
@@ -36,8 +36,8 @@
                 </div>
 
                 <div class="form-element my-4">
-                    <label for="crop_quantity" class="form-label">Crop Quantity</label>
-                    <input type="number" class="form-control" name="crop_quantity" id="crop_quantity" value="<?php echo $row['crop_quantity']; ?>">
+                    <label for="farmer_id" class="form-label">Farmer ID</label>
+                    <input type="text" class="form-control" name="farmer_id" id="farmer_id" value="<?php echo $row['farmer_id']; ?>">
                 </div>
 
                 <div class="form-element my-4">
@@ -51,7 +51,7 @@
                 </div>
 
                 <div class="form-element my-4">
-                    <input type="hidden" name="farmer_id" value="<?php echo $row['farmer_id']; ?>">
+                    <input type="hidden" name="data_collection_id" value="<?php echo $row['data_collection_id']; ?>">
                     <input type="submit" name="edit_data" value="Update Data" class="btn btn-primary">
                 </div>
             <?php
