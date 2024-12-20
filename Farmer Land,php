@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Farmer Land and Crop Distribution</title>
+    <link rel="stylesheet" href="Farmer Land.css">
+    <style>
+        /* Add your CSS styles here */
+        .container {
+            width: 90%;
+            margin: auto;
+        }
+        .section {
+            display: flex;
+            justify-content: space-between;
+            margin: 20px 0;
+        }
+        .farmer-land, .interactive-map {
+            width: 48%;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        .action-buttons button {
+            margin: 0 5px;
+        }
+        .search-bar {
+            margin-bottom: 10px;
+        }
+        .back-button {
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <!-- First Image Layout -->
+        <div class="section">
+            <!-- Left side: Farmer Land Table with Back Button -->
+            <div class="farmer-land">
+                <div class="back-button-container">
+                    <button class="back-button" onclick="history.back()">&#8592; Back</button>
+                </div>
+                <h2>Farmer Land</h2>
+                <div class="search-bar">
+                    <input type="text" id="search-input" placeholder="Search..." onkeyup="filterTable()">
+                </div>
+                <button onclick="window.location.href='add_farmer_land.php'">Add</button>
+                <table id="farmer-land-table">
+                    <thead>
+                        <tr>
+                            <th>Land Area</th>
+                            <th>Land ID</th>
+                            <th>Area Code</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php
+                        // Include the database connection
+                        include 'Connection.php';
+
+                        // Fetch existing records from the database
+                        $query = "SELECT * FROM farmer_land";
+                        $result = $connection->query($query);
+
+                        if ($result->num_rows > 0) {
+                            while ($row = $result->fetch_assoc()) {
+                                echo "<tr onclick=\"displayMap('{$row['latitude']}', '{$row['longitude']}')\">";
+                                echo "<td>{$row['land_area']}</td>";
+                                echo "<td>{$row['land_id']}</td>";
+                                echo "<td>{$row['area_code']}</td>";
+                                echo "<td class='action-buttons'>
+                                        <button onclick=\"window.location.href='edit_farmer_land.php?land_id={$row['land_id']}'\">Edit</button>
+                                        <button onclick=\"deleteRecord({$row['land_id']})\">Delete</button>
+                                      </td>";
+                                echo "</tr>";
+                            }
+                        } else {
+                            echo "<tr><td colspan='4'>No records found</td></tr>";
+                        }
+
+                        // Close the database connection
+                        $connection->close();
+                        ?>
+                    </tbody>
+                </table>
+            </div>
+            <!-- Right side: Interactive Map -->
+            <div class="interactive-map">
+                <h2>Interactive Map</h2>
+                <div class="map-placeholder">
+                    <button class="zoom-in">Zoom In</button>
+                    <div id="map" class="map">[Map Placeholder]</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function filterTable() {
+            const input = document.getElementById('search-input');
+            const filter = input.value.toLowerCase();
+            const table = document.getElementById('farmer-land-table');
+            const tr = table.getElementsByTagName('tr');
+
+            for (let i = 1; i < tr.length; i++) {
+                const td1 = tr[i].getElementsByTagName('td')[0];
+                const td2 = tr[i].getElementsByTagName('td')[1];
+                if (td1 || td2) {
+                    const txtValue1 = td1.textContent || td1.innerText;
+                    const txtValue2 = td2.textContent || td2.innerText;
+                    if (txtValue1.toLowerCase().indexOf(filter) > -1 || txtValue2.toLowerCase().indexOf(filter) > -1) {
+                        tr[i].style.display = "";
+                    } else {
+                        tr[i].style.display = "none";
+                    }
+                }
+            }
+        }
+
+        function deleteRecord(landId) {
+            if (confirm('Are you sure you want to delete this record?')) {
+                window.location.href = 'delete_farmer_land.php?land_id=' + landId;
+            }
+        }
+
+        function displayMap(latitude, longitude) {
+            // Logic to display the map for the specific location
+            const mapPlaceholder = document.getElementById('map');
+            // Here you can integrate a map API to show the location
+            mapPlaceholder.innerHTML = `Map Location: Latitude ${latitude}, Longitude ${longitude}`;
+        }
+    </script>
+</body>
+</html>
