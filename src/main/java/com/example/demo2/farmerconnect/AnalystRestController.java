@@ -16,6 +16,7 @@ public class AnalystRestController {
     AnalystDB analystDB = new AnalystDB();
     AnalystService analystService = new AnalystService();
     HarvestDB harvestDB = new HarvestDB();
+    BidDB bidDB = new BidDB();
     Connection conn;
     {  // runs when an instance is created..
         try
@@ -194,6 +195,12 @@ public class AnalystRestController {
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to update record.");
         }
+    }
+
+
+    @GetMapping("/all_harvest_bids")
+    public ResponseEntity<List<Bid_T>> getAllBids() {
+        return ResponseEntity.ok(bidDB.get_all_Bids_data());
     }
 
 }

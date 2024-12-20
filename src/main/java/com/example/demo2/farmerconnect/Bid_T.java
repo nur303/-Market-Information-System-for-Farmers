@@ -42,4 +42,7 @@ public class Bid_T {
         this.buyerID = buyerID;
         this.harvestID = harvestID;
     }
+
+
+
 }

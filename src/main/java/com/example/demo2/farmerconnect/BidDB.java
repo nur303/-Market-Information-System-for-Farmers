@@ -59,17 +59,7 @@ public class BidDB {
     }
     public List<Bid_T> get_all_Bids_data() {
         List<Bid_T> list = new ArrayList<>();
-        String sql = "SELECT b.bidID, b.buyerID, buyer.user_name AS buyer_name, buyer.phone_number AS buyer_phone, buyer.area_code AS buyer_location, " +
-                "b.bidding_price, b.time_of_bidding, b.date_of_bidding, h.harvestId, h.update_date AS harvest_date, " +
-                "c.crop_name, a.area_location AS harvest_location, h.farmerID, farmer.user_name AS farmer_name, " +
-                "farmer.phone_number AS farmer_phone, farmer.area_code AS farmer_location, h.inStock, " +
-                "h.quantity_in_KG AS quantity, h.quality, h.askingPrice " +
-                "FROM Bid_T b " +
-                "LEFT JOIN HARVEST_T h ON b.harvestID = h.harvestId " +
-                "LEFT JOIN TARGET_USER_T buyer ON b.buyerID = buyer.userID " +
-                "LEFT JOIN TARGET_USER_T farmer ON h.farmerID = farmer.userID " +
-                "LEFT JOIN CROP_T c ON h.cropID = c.cropID " +
-                "LEFT JOIN AREA_T a ON h.area_code = a.area_code";
+        String sql = "SELECT b.bidID, b.buyerID, buyer.user_name AS buyer_name, buyer.phone_number AS buyer_phone, buyer_area.area_location AS buyer_location, b.bidding_price, b.time_of_bidding, b.date_of_bidding, h.harvestId, h.update_date AS harvest_date, c.crop_name, a.area_location AS harvest_location, h.farmerID, farmer.user_name AS farmer_name, farmer.phone_number AS farmer_phone, farmer_area.area_location AS farmer_location, h.inStock, h.quantity_in_KG AS quantity, h.quality, h.askingPrice FROM Bid_T b LEFT JOIN HARVEST_T h ON b.harvestID = h.harvestId LEFT JOIN TARGET_USER_T buyer ON b.buyerID = buyer.userID LEFT JOIN AREA_T buyer_area ON buyer.area_code = buyer_area.area_code LEFT JOIN TARGET_USER_T farmer ON h.farmerID = farmer.userID LEFT JOIN AREA_T farmer_area ON farmer.area_code = farmer_area.area_code LEFT JOIN CROP_T c ON h.cropID = c.cropID LEFT JOIN AREA_T a ON h.area_code = a.area_code";
         try {
             PreparedStatement ps = conn.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();

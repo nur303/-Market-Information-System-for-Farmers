@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Buyer Dashboard</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+            display: flex;
+        }
+        .sidebar {
+            background-color: #007bff;
+            color: white;
+            width: 250px;
+            padding: 20px;
+            box-sizing: border-box;
+            height: 100vh;
+        }
+        .sidebar .logo {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+        .sidebar nav a {
+            color: white;
+            text-decoration: none;
+            display: block;
+            margin: 10px 0;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        .sidebar nav a:hover, .sidebar nav a.active {
+            background-color: #0056b3;
+        }
+        .main-content {
+            flex: 1;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+        .profile-card {
+            background-color: white;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .profile-image img {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+        .profile-info .info-item {
+            margin-bottom: 10px;
+        }
+        .profile-info label {
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+<div class="sidebar">
+    <div class="logo">Buyer Dashboard</div>
+    <nav>
+        <a href="/buyer_dashboard" class="active">Buyer Dashboard</a>
+        <a href="/buyer_harvest_bid_option" >Bidding on Harvest Table</a>
+
+    </nav>
+</div>
+<div class="main-content">
+    <h1>Dashboard</h1>
+    <div class="profile-card">
+        <div class="profile-image">
+            <img src="https://via.placeholder.com/100" alt="Profile Photo">
+        </div>
+        <div class="profile-info">
+            <div class="info-item">
+                <label>Buyer ID:</label>
+                <span>BUY001</span>
+            </div>
+            <div class="info-item">
+                <label>Buyer Name:</label>
+                <span>John Doe</span>
+            </div>
+            <div class="info-item">
+                <label>Email:</label>
+                <span>john.doe@buyer.com</span>
+            </div>
+            <div class="info-item">
+                <label>Member Since:</label>
+                <span>01/01/2022</span>
+            </div>
+            <div class="info-item">
+                <label>Recent Orders:</label>
+                <span>15</span>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

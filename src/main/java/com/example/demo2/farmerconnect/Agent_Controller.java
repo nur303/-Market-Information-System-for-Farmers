@@ -37,6 +37,15 @@ public class Agent_Controller {
     public String Agent_All_Harvest() {
         return "All_Harvest_view";
     }
+    @GetMapping("/agent_bids_info")
+    public String Agent_bids_info() {
+        return "view_all_bids_of_buyer";
+    }
+    @GetMapping("/buyer_dashboard")
+    public String buyer() {
+        return "buyer_dashboard";
+    }
+
     @ModelAttribute("locations")
     public List<Area_T> allLocations() {
         return areaDB.showAllAreaData();

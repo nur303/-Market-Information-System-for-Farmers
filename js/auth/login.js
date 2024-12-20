@@ -46,7 +46,7 @@ document.getElementById('loginForm').addEventListener('submit', function(e) {
                 window.location.href = '../analyst/analyst-dashboard.html';
                 break;
             case 'buyer':
-                window.location.href = '../buyer/buyer-dashboard.html';
+                window.location.href = '../buyer/buyer_dashboard.html';
                 break;
             case 'seller':
                 window.location.href = '../seller/seller-dashboard.html';
