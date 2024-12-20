@@ -66,7 +66,7 @@
                     </li>
         
                     <li class="nav-item">
-                        <a class="nav-link text-white" href="advised-rates.html">Analysis View</a>
+                        <a class="nav-link text-white" href="agent_market_view.php">Market View</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link text-white" href="agent_graph.php">Graph View</a>

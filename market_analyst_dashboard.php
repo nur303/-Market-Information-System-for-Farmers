@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -12,28 +11,60 @@
             margin: 0;
         }
         .sidebar {
-            height: 100vh; /* Full height for the sidebar */
+            height: 100vh;
         }
         .main-content {
-            height: 100vh; /* Full height for the main content */
-            overflow-y: auto; /* Enable scrolling if content overflows */
+            height: 100vh;
+            overflow-y: auto;
+        }
+        .profile-image {
+            width: 200px;
+            height: 200px;
+            object-fit: cover;
+            border: 4px solid #198754;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        .employee-card {
+            background-color: #f8f9fa;
+            border-radius: 15px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        }
+        .list-group-item {
+            background-color: transparent;
+            border-left: none;
+            border-right: none;
+            padding: 1rem 1.25rem;
+        }
+        .card-title {
+            color: #198754;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
         }
     </style>
 </head>
 <body>
+    <?php
+    // include 'connect.php';
+    // $sql = "SELECT COUNT(*) as total_analysis FROM market_analyst_analysis_db";
+    // $result = mysqli_query($conn, $sql);
+    // $row = mysqli_fetch_assoc($result);
+    // $total_analysis = $row['total_analysis'];
+    // mysqli_close($conn);
+    ?>
+
     <div class="container-fluid h-100">
         <div class="row h-100">
             <!-- Sidebar -->
             <nav class="col-md-3 col-lg-2 d-md-block bg-success text-white sidebar p-3">
                 <ul class="nav flex-column">
                     <li class="nav-item">
-                        <a class="nav-link text-white" href="market_analysis_table.php">Market Analysis Table</a>
+                        <a class="nav-link text-white" href="market_analyst_index.php">Market Analysis Table</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-white" href="market_info_collection.php">Market Info Collection</a>
+                        <a class="nav-link text-white" href="market_analyst_info_collection_index.php">Market Info Collection</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-white" href="market_graph.php">Graph</a>
+                        <a class="nav-link text-white" href="market_analyst_graph.php">Graph</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link text-white" href="index.php">Log Out</a>
@@ -43,24 +74,34 @@
 
             <!-- Main Content -->
             <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 main-content">
-                <h1 class="mt-4">Market Analyst Dashboard</h1>
-                <div class="card mt-4">
-                    <div class="row g-0">
-                        <div class="col-md-4 text-center p-4">
-                            <img src="market_analyst.jpg" class="img-fluid rounded-circle" alt="Market Analyst Photo" width="150">
+                <h1 class="mt-4 mb-4">Market Analyst Dashboard</h1>
+                <div class="card employee-card">
+                    <div class="row g-0 p-4">
+                        <div class="col-md-4 text-center d-flex flex-column align-items-center justify-content-center">
+                            <img src="analyst_ronon.jpg" class="profile-image rounded-circle mb-3" alt="Market Analyst Photo">
+                            <h4 class="mb-0">Muhit Ronon</h4>
+                            <p class="text-muted">Market Analyst</p>
                         </div>
                         <div class="col-md-8">
                             <div class="card-body">
-                                <h5 class="card-title">Market Analyst Details</h5>
+                                <h5 class="card-title">Employee Details</h5>
                                 <ul class="list-group list-group-flush">
-                                    <li class="list-group-item"><strong>Employee ID:</strong> 54321</li>
-                                    <li class="list-group-item"><strong>Employee Name:</strong> Jane Smith</li>
-                                    <li class="list-group-item"><strong>Email:</strong> jane.smith@example.com</li>
-                                    <li class="list-group-item"><strong>Date of Joining:</strong> 2018-05-15</li>
-                                    <li class="list-group-item"><strong>Age:</strong> 35</li>
-                                    <li class="list-group-item"><strong>Gender:</strong> Female</li>
-                                    <li class="list-group-item"><strong>Salary:</strong> $60,000</li>
-                                    <li class="list-group-item"><strong>Working Days:</strong> 260</li>
+                                    <li class="list-group-item d-flex justify-content-between">
+                                        <strong>Employee ID:</strong>
+                                        <span>E002</span>
+                                    </li>
+                                    <li class="list-group-item d-flex justify-content-between">
+                                        <strong>Email:</strong>
+                                        <span>ronon.muhit@gmail.com</span>
+                                    </li>
+                                    <li class="list-group-item d-flex justify-content-between">
+                                        <strong>Age:</strong>
+                                        <span>22</span>
+                                    </li>
+                                    <li class="list-group-item d-flex justify-content-between">
+                                        <strong>Total Number of Analysis:</strong>
+                                        <span class="badge bg-success rounded-pill fs-6"><?php echo $total_analysis; ?></span>
+                                    </li>
                                 </ul>
                             </div>
                         </div>
