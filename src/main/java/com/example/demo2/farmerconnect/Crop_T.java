@@ -6,11 +6,9 @@ import jakarta.persistence.Table;
 import lombok.Data;
 
 @Data
-@Entity
-@Table(name = "CROP_T")
 
 public class Crop_T {
-        @Id
+
         private String cropID;
         private String crop_name;
         private String season;

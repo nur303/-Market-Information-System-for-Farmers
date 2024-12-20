@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Harvest and Bids Information</title>
+    <link rel="stylesheet" href="analyst.css">
+    <style>
+        th {
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <a href="/agent_area_insertion">Area Insertion Form</a>
+        <a href="/agent_crop_insertion">Crop Insertion Form</a>
+        <a href="/agent_user_insert_form">User Insertion Form</a>
+        <a href="/agent_crop_info_table">Crop Information Table</a>
+        <a href="/agent_harvest_insertion">Harvest Insertion Form</a>
+        <a href="/agent_All_Harvest">Harvest Information Table</a>
+        <a href="/analyst_dashboard">Dashboard</a>
+        <a href="/agent_bids_info" class="active">Harvest and Bids Information</a>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <h1>Harvest and Bids Information</h1>
+        <table border="1">
+            <thead>
+            <tr>
+                <th>Bid ID</th>
+                <th>Buyer ID</th>
+                <th>Buyer Name</th>
+                <th>Buyer phone</th>
+                <th>Bidding Price</th>
+                <th>Time of Bidding</th>
+                <th>Date of Bidding</th>
+                <th onclick="sortTable(0)">Harvest Date</th>
+                <th>Harvest ID</th>
+                <th onclick="sortTable(1)">Crop Name</th>
+                <th onclick="sortTable(2)">Harvest Location</th>
+                <th>Farmer ID</th>
+                <th>Farmer Name</th>
+                <th>Farmer phone</th>
+
+                <th>In Stock (%)</th>
+                <th>Quantity (kg)</th>
+                <th>Quality</th>
+                <th>Asking Price</th>
+            </tr>
+            </thead>
+            <tbody id="bidsInfoTable">
+            <!-- Rows will be dynamically added here -->
+            </tbody>
+        </table>
+    </main>
+</div>
+
+<script>
+    // Fetch and render harvest and bids information on page load
+    async function fetchAndRenderBidsInfo() {
+        try {
+            const response = await fetch('/agent/all_harvest_bids'); // Adjust the endpoint as needed
+            if (!response.ok) {
+                throw new Error('Failed to fetch harvest and bids information');
+            }
+
+            const bidsInfo = await response.json();
+            populateBidsInfoTable(bidsInfo);
+        } catch (error) {
+            console.error('Error fetching harvest and bids information:', error);
+            alert('An error occurred while fetching harvest and bids information.');
+        }
+    }
+    window.onload = fetchAndRenderBidsInfo;
+
+    // Populate the table with harvest and bids information
+    function populateBidsInfoTable(bidsInfo) {
+        const tableBody = document.getElementById('bidsInfoTable');
+        tableBody.innerHTML = ''; // Clear table body before adding rows
+
+        bidsInfo.forEach((info) => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${info.bidID}</td>
+                <td>${info.buyerID}</td>
+                <td>${info.buyerName}</td>
+                <td>${info.buyerPhone}</td>
+                <td>${info.biddingPrice}</td>
+                <td>${info.timeOfBidding}</td>
+                <td>${info.dateOfBidding}</td>
+                <td>${info.harvestDate}</td>
+                <td>${info.harvestID}</td>
+                <td>${info.cropName}</td>
+                <td>${info.harvestLocation}</td>
+                <td>${info.farmerID}</td>
+                <td>${info.farmerName}</td>
+                <td>${info.farmerPhone}</td>
+                <td>${info.inStock}</td>
+                <td>${info.quantity}</td>
+                <td>${info.quality}</td>
+                <td>${info.askingPrice}</td>
+            `;
+            tableBody.appendChild(row);
+        });
+    }
+</script>
+</body>
+</html>

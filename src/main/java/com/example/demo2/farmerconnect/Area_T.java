@@ -6,10 +6,9 @@ import jakarta.persistence.Table;
 import lombok.Data;
 
 @Data
-@Entity
-@Table(name = "AREA_T")
+
 public class Area_T {
-    @Id
+
     private String area_code;
     private String area_location;
 

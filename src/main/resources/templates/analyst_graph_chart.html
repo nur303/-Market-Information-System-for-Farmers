@@ -14,8 +14,9 @@
     <a href="/analyst_dashboard">Dashboard</a>
     <a href="/analyst_market_prices">Market Price for Crops</a>
       <a href="/analyst_input_market_data" >Input Market Data</a>
-    <a href="/analyst_graph_chart" class="active">Graph/Chart</a>
+    <a href="/analyst_graph_chart" class="active">Graph By Date For</a>
     <a href="/analyst_index">Sign Out</a>
+    <a href="/agent_All_Harvest" >Harvest Information Table</a>
   </aside>
   <!-- Main Content -->
   <main class="main-content">
@@ -37,6 +38,12 @@
                 th:value="${crop.cropID}"
                 th:text="${crop.crop_name}">
         </option>
+      </select>
+      <label for="priceType">Select Price Type:</label>
+      <select id="priceType" name="priceType">
+        <option value="" disabled selected>Select Price Type</option>
+        <option value="high">Show By Highest price</option>
+        <option value="low">Show By lowest price</option>
       </select>
 
       <!-- Dropdown for Months -->
@@ -72,15 +79,16 @@
       const location = document.getElementById('location').value;
       const crop = document.getElementById('crop').value;
       const month = document.getElementById('month').value;
+      const priceType = document.getElementById('priceType').value;
 
       // Ensure all filters are selected
-      if (!location || !crop || !month) {
+      if (!location || !crop || !month || !priceType) {
         alert('Please select all filters before displaying the chart.');
         return;
       }
 
       // Fetch data from the backend API
-      const response = await fetch(`/api/pricing-graph?location=${location}&crop=${crop}&month=${month}`);
+      const response = await fetch(`/api/pricing-graph?location=${location}&crop=${crop}&month=${month}&priceType=${priceType}`);
 
       if (!response.ok) {
         const errorMessage = await response.text();

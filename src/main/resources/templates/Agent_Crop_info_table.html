@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Crop Information</title>
+  <link rel="stylesheet" href="analyst.css">
+</head>
+<body>
+<div class="container">
+  <!-- Sidebar -->
+  <aside class="sidebar">
+
+    <a href="/agent_area_insertion">Area Insertion Form</a>
+    <a href="/agent_crop_insertion" >Crop Insertion Form</a>
+    <a href="agent_user_insert_form" >User Insertion Form</a>
+    <a href="/agent_crop_info_table" class="active">Crop Information</a>
+    <a href="/agent_harvest_insertion">Harvest Insertion Form</a>
+    <a href="/agent_All_Harvest" >Harvest Information</a>
+  </aside>
+
+  <!-- Main Content -->
+  <main class="main-content">
+    <h1>Crop Information</h1>
+    <table border="1">
+      <thead>
+      <tr>
+        <th>Crop ID</th>
+        <th>Crop Name</th>
+        <th>Season</th>
+        <th>Actions</th>
+      </tr>
+      </thead>
+      <tbody id="cropInfoTable">
+      <!-- Rows will be dynamically added here -->
+      </tbody>
+    </table>
+  </main>
+</div>
+
+<script>
+  // Fetch and populate crop information on page load
+  async function fetchAndRenderCropInfo() {
+    try {
+      const response = await fetch('/agent/all_crops'); // Adjust endpoint for Agent
+      if (!response.ok) {
+        throw new Error('Failed to fetch crop information');
+      }
+
+      const crops = await response.json();
+      populateCropInfoTable(crops);
+    } catch (error) {
+      console.error('Error fetching crop information:', error);
+      alert('An error occurred while fetching crop information.');
+    }
+  }
+
+  // Populate the table with crop information
+  function populateCropInfoTable(crops) {
+    const tableBody = document.getElementById('cropInfoTable');
+    tableBody.innerHTML = ''; // Clear the table body
+
+    crops.forEach((crop) => {
+      const row = document.createElement('tr');
+      row.innerHTML = `
+        <td>${crop.cropID}</td>
+        <td>${crop.crop_name}</td>
+        <td>${crop.season}</td>
+        <td>
+          <button type="button" onclick="deleteCrop('${crop.cropID}', this)">Delete</button>
+        </td>
+      `;
+      tableBody.appendChild(row);
+    });
+  }
+
+  // Function to delete a crop
+  async function deleteCrop(cropID, button) {
+    try {
+      // Prepare the payload as a JSON object
+      const payload = { cropID };
+
+      // Send DELETE request with payload in the body
+      const response = await fetch('/agent/delete-crop', {
+        method: 'DELETE',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload), // Attach the payload
+      });
+
+      if (response.ok) {
+        alert('Crop deleted successfully!');
+        // Remove the corresponding row from the table
+        button.closest('tr').remove();
+      } else {
+        const error = await response.text();
+        alert(`Error deleting crop: ${error}`);
+      }
+    } catch (error) {
+      console.error('Error deleting crop:', error);
+      alert('An error occurred while deleting the crop.');
+    }
+  }
+
+  // Trigger fetch and render on page load
+  window.onload = fetchAndRenderCropInfo;
+</script>
+</body>
+</html>

@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Harvest Information</title>
+    <link rel="stylesheet" href="analyst.css">
+    <style>
+        th {
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <a href="/agent_area_insertion">Area Insertion Form</a>
+        <a href="/agent_crop_insertion">Crop Insertion Form</a>
+        <a href="/agent_user_insert_form">User Insertion Form</a>
+        <a href="/agent_crop_info_table">Crop Information Table</a>
+        <a href="/agent_harvest_insertion" >Harvest Insertion Form</a>
+        <a href="/agent_All_Harvest" class="active">Harvest Information Table</a>
+        <a href="/analyst_dashboard">Dashboard</a>
+
+
+
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <h1>Harvest Information</h1>
+        <table border="1">
+            <thead>
+            <tr>
+                <th>Harvest ID</th>
+                <th onclick="sortTable(0)">Update Date</th>
+                <th onclick="sortTable(1)">Crop Name</th>
+                <th onclick="sortTable(2)">Area Code</th>
+                <th>Farmer ID</th>
+                <th>In Stock (%)</th>
+                <th>Quantity (kg)</th>
+                <th>Quality</th>
+                <th>Asking Price</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody id="harvestInfoTable">
+            <!-- Rows will be dynamically added here -->
+            </tbody>
+        </table>
+    </main>
+</div>
+
+<script>
+    // Fetch and render harvest information on page load
+    async function fetchAndRenderHarvestInfo() {
+        try {
+            const response = await fetch('/agent/all_harvests'); // Adjust the endpoint as needed
+            if (!response.ok) {
+                throw new Error('Failed to fetch harvest information');
+            }
+
+            const harvests = await response.json();
+            inputListOfHarvestData(harvests);
+        } catch (error) {
+            console.error('Error fetching harvest information:', error);
+            alert('An error occurred while fetching harvest information.');
+        }
+    }
+    window.onload = fetchAndRenderHarvestInfo;
+
+    function inputListOfHarvestData(harvestList) {
+        const tableBody = document.getElementById('harvestInfoTable');
+        tableBody.innerHTML = ''; // Clear table body once before appending rows
+
+        harvestList.forEach((harvest) => {
+            inputHarvestInfo(harvest); // Call inputHarvestInfo for each harvest
+        });
+    }
+    // Populate the harvest info table
+    function inputHarvestInfo(harvest) {
+        const tableBody = document.getElementById('harvestInfoTable');
+
+        const row = document.createElement('tr');
+        row.innerHTML = `
+        <td>${harvest.harvestId}</td>
+        <td>${harvest.update_date}</td>
+        <td>${harvest.cropName}</td>
+        <td>${harvest.location}</td>
+        <td>${harvest.farmerName}</td>
+        <td>${harvest.inStock}</td>
+        <td>${harvest.quantity}</td>
+        <td>${harvest.quality}</td>
+        <td>${harvest.askingPrice}</td>
+        <td>
+          <button type="button" onclick="deleteHarvest('${harvest.harvestId}', this)">Delete</button>
+        </td>
+    `;
+        tableBody.appendChild(row);
+    }
+
+
+    // Function to delete a harvest
+    async function deleteHarvest(harvestId, button) {
+        const payload = {harvestID: harvestId}
+
+
+        try {
+            // Send DELETE request with harvestId in the body
+            const response = await fetch('/agent/analyst/delete-harvest', {
+                method: 'DELETE',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload), // Include harvestId in payload
+            });
+
+            if (response.ok) {
+                console.log(`Harvest with ID ${harvestId} deleted successfully!`);
+                alert('Harvest deleted successfully!');
+                button.closest('tr').remove(); // Remove the corresponding row
+            } else {
+                const error = await response.text();
+                console.error(`Server error while deleting harvest with ID ${harvestId}:`, error);
+                alert(`Error deleting harvest: ${error}`);
+            }
+        } catch (error) {
+            console.error(`Client-side error while deleting harvest with ID ${harvestId}:`, error);
+            alert('An error occurred while deleting the harvest.');
+        }
+    }
+
+    // Function to sort the table by column index
+
+    // Trigger fetch and render on page load
+    window.onload = fetchAndRenderHarvestInfo;
+</script>
+</body>
+</html>

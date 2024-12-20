@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Registration</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            height: 100vh;
+            background-color: #f5f5f5;
+        }
+
+        .sidebar {
+            width: 200px;
+            background-color: #2c3e50;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            align-items: start;
+            padding: 20px;
+            position: fixed;
+            height: 100%;
+            box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .sidebar a {
+            color: white;
+            text-decoration: none;
+            font-size: 14px;
+            margin: 10px 0;
+            padding: 8px 12px;
+            border-radius: 3px;
+            display: block;
+        }
+
+        .sidebar a:hover {
+            background-color: #34495e;
+        }
+
+        .sidebar a.active {
+            background-color: #1abc9c;
+        }
+
+        .content {
+            margin-left: 200px;
+            padding: 20px;
+            width: 100%;
+            overflow-y: auto;
+        }
+
+        .form-container {
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            text-align: center;
+            color: #2c3e50;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            font-weight: 500;
+            margin-bottom: 8px;
+            color: #2c3e50;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            font-size: 16px;
+            font-weight: bold;
+            color: white;
+            background-color: #1abc9c;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #16a085;
+        }
+    </style>
+</head>
+<body>
+<div class="sidebar">
+    <h3>Navigation</h3>
+    <a href="agent_user_insert_form" class="active">User Insertion Form</a>
+    <a href="/agent_area_insertion">Area Insertion Form</a>
+    <a href="/agent_crop_insertion" >Crop Insertion Form</a>
+    <a href="/agent_crop_info_table" >Crop Information</a>
+    <a href="/agent_harvest_insertion">Harvest Insertion Form</a>
+    <a href="/agent_All_Harvest" >Harvest Information</a>
+</div>
+
+<div class="content">
+    <h2>Farmer Registration</h2>
+    <div class="form-container">
+        <form id="farmerRegistrationForm">
+            <!-- User ID -->
+
+            <!-- User Name -->
+            <div class="form-group">
+                <label for="userName">User Name:</label>
+                <input type="text" id="userName" name="userName" placeholder="Enter User Name" required>
+            </div>
+
+            <!-- Phone Number -->
+            <div class="form-group">
+                <label for="phoneNumber">Phone Number(must be 11 digits):</label>
+                <input type="text" id="phoneNumber" name="phoneNumber" placeholder="Enter Phone Number" required>
+            </div>
+
+            <!-- Area Location -->
+            <div class="form-group">
+                <label for="location">Select Location:</label>
+                <select id="location" name="location" required>
+                    <option value="" disabled selected>Select Location</option>
+                    <option th:each="location : ${locations}"
+                            th:value="${location.area_code}"
+                            th:data-name="${location.area_location}"
+                            th:text="${location.area_location}">
+                    </option>
+                </select>
+            </div>
+
+            <!-- User Type -->
+            <div class="form-group">
+                <label for="userType">User Type:</label>
+                <select id="userType" name="userType" required>
+                    <option value="Farmer">Farmer</option>
+                    <option value="Buyer">Buyer</option>
+                </select>
+            </div>
+
+            <!-- Education Level -->
+            <div class="form-group">
+                <label for="educationLevel">Education Level(Required for Farmer Insertion):</label>
+                <select id="educationLevel" name="educationLevel" required>
+                    <option value="Primary">Primary</option>
+                    <option value="Secondary">Secondary</option>
+                    <option value="Higher Secondary">Higher Secondary</option>
+                    <option value="Undergraduate">Undergraduate</option>
+                    <option value="Postgraduate">Postgraduate</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="shopNumber">Shop Number[max 10 char] (Required for Buyer Insertion):</label>
+                <input type="text" id="shopNumber" name="shopNumber" placeholder="Enter Shop Number" required>
+            </div>
+            <label for="crop">Select preferred Crops (Required for Buyer Insertion) :</label>
+            <select id="crop" name="crop">
+                <option value="" disabled selected>Select Crop</option>
+                <option th:each="crop : ${crops}"
+                        th:value="${crop.cropID}"
+                        th:text="${crop.crop_name}">
+                </option>
+            </select>
+            <!-- Submit Button -->
+            <button type="button" onclick="submitFarmerData()">Submit</button>
+        </form>
+    </div>
+</div>
+
+<script>
+    async function submitFarmerData() {
+        const form = document.getElementById('farmerRegistrationForm');
+        const shopNumber = form.elements['shopNumber'].value;// Access the value of the input field
+        const phoneNumber = form.elements['phoneNumber'].value;// Access the value of the input field
+
+        if (phoneNumber.length !== 11) { // Validate the length of the input value
+            alert("phone number must be 11 characters!");
+            return;
+        }
+        if (shopNumber.length > 10) { // Validate the length of the input value
+            alert("Don't exceed 10 characters for shop number!");
+            return;
+        }
+        const formData = new FormData(form);
+
+        const payload = Object.fromEntries(formData.entries());
+
+        try {
+            const response = await fetch('/agent/register-farmer', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            });
+
+            if (response.ok) {
+                alert('Farmer registered successfully!');
+                form.reset();
+            } else {
+                const error = await response.text();
+                alert(`Error: ${error}`);
+            }
+        } catch (error) {
+            console.error('Submission Error:', error);
+            alert('An error occurred while submitting the farmer data.');
+        }
+    }
+</script>
+</body>
+</html>

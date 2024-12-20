@@ -15,7 +15,7 @@ public class AnalystRestController {
     AnalystMarketPriceAndAdvisedRates_T marketDataInput = new AnalystMarketPriceAndAdvisedRates_T();
     AnalystDB analystDB = new AnalystDB();
     AnalystService analystService = new AnalystService();
-
+    HarvestDB harvestDB = new HarvestDB();
     Connection conn;
     {  // runs when an instance is created..
         try
@@ -36,13 +36,15 @@ public class AnalystRestController {
     public ResponseEntity<?> getPricingGraph(
             @RequestParam String location,
             @RequestParam String crop,
-            @RequestParam String month) {
+            @RequestParam String month,
+            @RequestParam String priceType
+    ) {
 
         String startOfMonth = month + "-01";
         LocalDate startDate = LocalDate.parse(startOfMonth);
         LocalDate endDate = startDate.plusMonths(1);
 
-        String sql = "SELECT update_date, highest_price_per_kg_or_unit " +
+        String sql = "SELECT update_date, highest_price_per_kg_or_unit, lowest_price_per_kg_or_unit  " +
                 "FROM MARKET_PRICE_FOR_CROPS_AND_ADVISED_RATES_T " +
                 "WHERE area_code = ? AND cropID = ? " +
                 "AND update_date >= ? AND update_date < ?";
@@ -59,9 +61,14 @@ public class AnalystRestController {
 
             while (rs.next()) {
                 LocalDate date = rs.getDate("update_date").toLocalDate();
-                int price = rs.getInt("highest_price_per_kg_or_unit");
+                if (priceType.equals("high")) {
+                    int price = rs.getInt("highest_price_per_kg_or_unit");
+                    marketPriceGraphList.add(new MarketPriceGraph(date, price));
+                }else{
+                    int price = rs.getInt("lowest_price_per_kg_or_unit");
+                    marketPriceGraphList.add(new MarketPriceGraph(date, price));
+                }
 
-                marketPriceGraphList.add(new MarketPriceGraph(date, price));
             }
 
             return ResponseEntity.ok(marketPriceGraphList);
@@ -113,6 +120,15 @@ public class AnalystRestController {
     public ResponseEntity<List<AnalystMarketPriceAndAdvisedRates_T>> getMarketPrices() {
         return ResponseEntity.ok(analystService.showMarketPriceAndRates());
     }
+
+
+
+//    /// //      all harvest info showing in table  //////
+//    @GetMapping("/agent/all_harvests")
+//    public ResponseEntity<List<Harvest_T>> getHarvestInfo() {
+//        return ResponseEntity.ok(harvestDB.get_all_buyer_data());
+//    }
+
 
     @DeleteMapping("/api/delete-market-price")
     public ResponseEntity<String> deleteMarketPrice(@RequestBody Map<String, Object> payload) {

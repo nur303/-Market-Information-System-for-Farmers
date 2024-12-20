@@ -36,6 +36,10 @@ public class AnalystController {
     }
     @GetMapping("/analyst_input_market_data")
     public String advised_rates() {return "analyst_input_for_market_price";}
+//    @GetMapping("/agent_All_Harvest")
+//    public String Agent_All_Harvest() {
+//        return "All_Harvest_view";
+//    }
 
 
 // modeling attribute
@@ -62,8 +66,6 @@ public class AnalystController {
     public List<Crop_T> allCrops() {
         return cropDB.showAllCropData();
     }
-
-
 
 
 }

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Area Insertion Form</title>
+    <title>Crop Insertion Form</title>
     <link rel="stylesheet" href="analyst.css">
     <style>
         /* Sidebar styling */
@@ -66,7 +66,7 @@
             margin-bottom: 5px;
         }
 
-        input, button {
+        input, select, button {
             width: 100%;
             padding: 10px;
             font-size: 14px;
@@ -95,9 +95,9 @@
     <!-- Sidebar -->
     <aside class="sidebar">
 
+        <a href="/agent_area_insertion">Area Insertion Form</a>
+        <a href="/agent_crop_insertion" class="active">Crop Insertion Form</a>
         <a href="/agent_crop_info_table" >Crop Information</a>
-        <a href="/agent_crop_insertion" >Crop Insertion Form</a>
-        <a href="/agent_area_insertion" class="active">Area Insertion Form</a>
         <a href="agent_user_insert_form" >User Insertion Form</a>
         <a href="/agent_harvest_insertion">Harvest Insertion Form</a>
         <a href="/agent_All_Harvest" >Harvest Information</a>
@@ -106,42 +106,51 @@
     <!-- Main Content -->
     <main class="main-content">
         <div class="form-container">
-            <h2>Area Insertion Form</h2>
-            <form id="areaInsertionForm">
+            <h2>Crop Insertion Form</h2>
+            <form id="cropInsertionForm">
                 <div class="form-group">
-                    <label for="areaCode">Area Code:(must be in 6 letters)</label>
-                    <input type="text" id="areaCode" name="areaCode" placeholder="Enter area code" required>
+                    <label for="cropID">Crop ID (6 characters):</label>
+                    <input type="text" id="cropID" name="cropID" placeholder="Enter Crop ID" required>
                 </div>
                 <div class="form-group">
-                    <label for="areaLocation">Area Location:</label>
-                    <input type="text" id="areaLocation" name="areaLocation" placeholder="Enter area location" required>
+                    <label for="cropName">Crop Name:</label>
+                    <input type="text" id="cropName" name="cropName" placeholder="Enter Crop Name" required>
                 </div>
-                <button type="button" onclick="submitAreaData()">Submit</button>
+                <div class="form-group">
+                    <label for="season">Season:</label>
+                    <select id="season" name="season" required>
+                        <option value="" disabled selected>Select Season</option>
+                        <option value="Summer">Summer</option>
+                        <option value="Winter">Winter</option>
+                        <option value="Autumn">Autumn</option>
+                        <option value="Rainy Season">Rainy Season</option>
+                    </select>
+                </div>
+                <button type="button" onclick="submitCropData()">Submit</button>
             </form>
         </div>
     </main>
 </div>
 
 <script>
-    async function submitAreaData() {
+    async function submitCropData() {
         try {
-            const form = document.getElementById('areaInsertionForm');
+            const form = document.getElementById('cropInsertionForm');
             const formData = new FormData(form);
             const payload = Object.fromEntries(formData.entries());
 
 
-
             console.log('Payload to send:', payload); // Debug: Log the payload
 
-            const response = await fetch('/api/AreaInsertion', {
+            const response = await fetch('/api/CropInsertion', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(payload)
             });
 
             if (response.ok) {
-                console.log('Area inserted successfully!');
-                alert('Area inserted successfully!');
+                console.log('Crop inserted successfully!');
+                alert('Crop inserted successfully!');
                 form.reset();
             } else {
                 const error = await response.text();
@@ -150,7 +159,7 @@
             }
         } catch (error) {
             console.error('Submission Error:', error);
-            alert('An error occurred while submitting the area data.');
+            alert('An error occurred while submitting the crop data.');
         }
     }
 </script>

@@ -8,18 +8,16 @@ import lombok.Data;
 import java.sql.Date;
 
 @Data
-@Entity
-@Table(name = "MARKET_PRICE_FOR_CROPS_AND_ADVISED_RATES_T")
+
 
 public class AnalystMarketPriceAndAdvisedRates_T {
 
-    @Id
+
     private Date updateDate;
-    @Id
+
     private String cropID;
     private String cropName = null;
 
-    @Id
     private String areaCode;
     private String area_location = null;
     private String reason_for_advised_rate;

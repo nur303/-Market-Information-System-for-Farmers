@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Harvest Information</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+      padding: 20px;
+    }
+
+    .container {
+      display: flex;
+    }
+
+    .sidebar {
+      width: 200px;
+      margin-right: 20px;
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      background-color: #f4f4f4;
+    }
+
+    .sidebar a {
+      display: block;
+      margin-bottom: 10px;
+      padding: 8px;
+      text-decoration: none;
+      color: #333;
+      font-weight: bold;
+    }
+
+    .sidebar a:hover {
+      background-color: #ddd;
+      color: #000;
+    }
+
+    .sidebar a.active {
+      background-color: #4CAF50;
+      color: white;
+    }
+
+    .form-container {
+      flex: 1;
+      padding: 20px;
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      background-color: #f9f9f9;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .form-group {
+      margin-bottom: 15px;
+    }
+
+    label {
+      display: block;
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+
+    input, select {
+      width: 100%;
+      padding: 10px;
+      font-size: 14px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      box-sizing: border-box;
+    }
+
+    button {
+      width: 100%;
+      padding: 10px;
+      font-size: 16px;
+      font-weight: bold;
+      color: #fff;
+      background-color: #4CAF50;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #45a049;
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <a href="/agent_harvest_insertion" class="active">Harvest Insertion Form</a>
+    <a href="/agent_area_insertion">Area Insertion Form</a>
+    <a href="/agent_crop_insertion">Crop Insertion Form</a>
+    <a href="/agent_user_insert_form">User Insertion Form</a>
+    <a href="/agent_crop_info_table" >Crop Information</a>
+    <a href="/agent_All_Harvest" >Harvest Information</a>
+  </aside>
+
+  <!-- Form Content -->
+  <div class="form-container">
+    <h1>Harvest Information</h1>
+    <form id="harvestForm">
+      <div class="form-group">
+        <label for="farmerID">Farmer ID:</label>
+        <select id="farmerID" name="farmerID">
+          <option value="" disabled selected>Select Farmer ID</option>
+          <option th:each="farmer : ${farmers}"
+                  th:value="${farmer.userID}"
+                  th:text="${farmer.userID}">
+          </option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="crop">Crop Name:</label>
+        <select id="crop" name="crop">
+          <option value="" disabled selected>Select Crop</option>
+          <option th:each="crop : ${crops}"
+                  th:value="${crop.cropID}"
+                  th:text="${crop.crop_name}">
+          </option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="location">Select Location:</label>
+        <select id="location" name="location" required>
+          <option value="" disabled selected>Select Location</option>
+          <option th:each="location : ${locations}"
+                  th:value="${location.area_code}"
+                  th:data-name="${location.area_location}"
+                  th:text="${location.area_location}">
+          </option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="inStock">In Stock (%):</label>
+        <input type="number" id="inStock" name="inStock" placeholder="Enter Stock Percentage" required>
+      </div>
+
+      <div class="form-group">
+        <label for="quantity">Quantity of Crops (in kgs):</label>
+        <input type="number" id="quantity" name="quantity" placeholder="Enter Quantity of Crops" required>
+      </div>
+
+      <div class="form-group">
+        <label for="quality">Quality of Crop :</label>
+        <select id="quality" name="quality" required>
+          <option value="" disabled selected>Select Quality</option>
+          <option value="Excellent">Excellent</option>
+          <option value="Good">Good</option>
+          <option value="Average">Average</option>
+          <option value="Poor">Poor</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="askingPrice">Asking Price:</label>
+        <input type="number" id="askingPrice" name="askingPrice" placeholder="Enter Asking Price" required>
+      </div>
+
+      <button type="button" onclick="submitHarvestInfo()">Submit</button>
+    </form>
+  </div>
+</div>
+
+<script>
+  async function submitHarvestInfo() {
+    try {
+      const form = document.getElementById('harvestForm');
+      const formData = new FormData(form);
+
+      // Convert form data to JSON
+      const payload = Object.fromEntries(formData.entries());
+
+      // Log for debugging
+      console.log('Submitting Harvest Info:', payload);
+
+      // Make the API call to the backend
+      const response = await fetch('/api/harvest_insert', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+
+      if (response.ok) {
+        alert('Harvest Information Submitted Successfully!');
+        form.reset(); // Reset form after successful submission
+      } else {
+        const error = await response.text();
+        alert(`Error: ${error}`);
+      }
+    } catch (error) {
+      console.error('Submission Error:', error);
+      alert('An error occurred while submitting harvest information.');
+    }
+  }
+</script>
+</body>
+</html>

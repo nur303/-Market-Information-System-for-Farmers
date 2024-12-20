@@ -21,7 +21,7 @@ public class CropDB {
         }
     }
     public void save_crop_data(Crop_T bigData ){
-        String sql = "insert  INTO AREA_T (cropID,crop_name,season) VALUES(?,?,?)";
+        String sql = "insert  INTO CROP_T (cropID,crop_name,season) VALUES(?,?,?)";
 
         try {
             PreparedStatement ps = conn.prepareStatement(sql);
@@ -56,5 +56,19 @@ public class CropDB {
             e.printStackTrace();
         }
         return allCropData;
+    }
+
+    public boolean deleteData(String bigData ) {
+        String sql = "DELETE FROM CROP_T WHERE  cropid = ?";
+        try {
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setString(1, bigData);
+            int affectedRows = ps.executeUpdate();
+            ps.close();
+            return affectedRows > 0; // Returns true if a row was deleted
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 }
