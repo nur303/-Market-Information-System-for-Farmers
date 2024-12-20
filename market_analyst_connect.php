@@ -1,5 +1,5 @@
 <?php
-$dbName = "blist";
+$dbName = "FarmerConnect";
 $dbHost = "localhost";
 $dbUser = "root";
 $dbPass = "";
