@@ -1,54 +1,102 @@
-/* General Reset */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Buyer</title>
+    <style>
+        /* General Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-body {
-    font-family: Arial, sans-serif;
-    background-image: url('farmer.webp'); /* Use uploaded farmer image */
-    background-size: cover;
-    background-position: center;
-    color: #333;
-}
+        /* Body Styling */
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            min-height: 100vh;
+            margin: 0;
+            background-image: url('1136060.jpg'); /* Replace with the actual path to your image */
+            background-size: cover;
+            background-position: center center;
+        }
 
-.container {
-    display: flex;
-}
+        /* Container */
+        .container {
+            display: flex;
+            width: 100%;
+        }
 
-.sidebar {
-    width: 250px;
-    background-color: rgba(121, 31, 31, 0.8);
-    padding: 20px;
-    height: 100vh;
-}
+        /* Sidebar */
+        .sidebar {
+            width: 250px;
+            background-color: #2c3e50;
+            color: #ecf0f1;
+            padding: 20px;
+            flex-shrink: 0;
+            height: 100vh;
+        }
 
-.sidebar h2 {
-    text-align: center;
-    color: #4A4A4A;
-    margin-bottom: 20px;
-}
+        .sidebar h1 {
+            font-size: 24px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
 
-.sidebar ul {
-    list-style: none;
-    padding: 0;
-}
+        .sidebar nav ul {
+            list-style: none;
+            padding: 0;
+        }
 
-.sidebar ul li {
-    margin: 10px 0;
-}
+        .sidebar nav ul li {
+            margin-bottom: 15px;
+        }
 
-.sidebar ul li a {
-    text-decoration: none;
-    color: #2E8B57;
-    font-size: 18px;
-    display: block;
-    padding: 10px;
-    border-radius: 5px;
-    transition: 0.3s;
-}
+        .sidebar nav ul li a {
+            color: #ecf0f1;
+            text-decoration: none;
+            font-size: 18px;
+            display: block;
+            padding: 8px 15px;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
 
-.sidebar ul li a:hover {
-    background-color: #4CAF50;
-}
+        .sidebar nav ul li a:hover {
+            background-color: #34495e;
+        }
+
+        /* Main Content */
+        .main-content {
+            flex-grow: 1;
+            padding: 40px;
+            background-color: rgba(255, 255, 255, 0.8); /* Add some opacity to the content */
+            color: #2c3e50;
+        }
+
+        .main-content h2 {
+            font-size: 32px;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <aside class="sidebar">
+            <h1>Buyer</h1>
+            <nav>
+                <ul>
+                    <li><a href="BuyerProfile.html">Buyer Profile</a></li>
+                    <li><a href="shopnumber.html">Shop Number</a></li>
+                </ul>
+            </nav>
+        </aside>
+
+        <main class="main-content">
+            <h2>Welcome</h2>
+        </main>
+    </div>
+</body>
+</html>
