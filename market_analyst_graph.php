@@ -11,7 +11,7 @@
      );
       
      $link=mysqli_connect("localhost","root","");
-     mysqli_select_db($link,"chart_db");
+     mysqli_select_db($link,"farmerconnect");
     
     $test=array();
     $count=0;
@@ -61,4 +61,4 @@
      
      </form>
      </body>
-     </html>                              
+     </html>                   

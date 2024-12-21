@@ -11,7 +11,24 @@
     <div class="container my-4">
         <header class="d-flex justify-content-between my-4">
             <h1>Available Bids</h1>
+            <div>
+                <a href="bid_history.php" class="btn btn-info">View Bid History</a>
+            </div>
         </header>
+
+        <?php
+        session_start();
+        if (isset($_SESSION["bid_placed"])) {
+        ?>
+            <div class="alert alert-success">
+                <?php 
+                echo $_SESSION["bid_placed"];
+                unset($_SESSION["bid_placed"]);
+                ?>
+            </div>
+        <?php
+        }
+        ?>
 
         <table class="table table-bordered">
             <thead>
@@ -20,22 +37,22 @@
                     <th>Crop ID</th>
                     <th>Farmer ID</th>
                     <th>Minimum Bid Price</th>
+                    <th>Current Highest Bid</th>
                     <th>Quantity</th>
                     <th>Location</th>
                     <th>Bid End Date</th>
-                    <th>Current Highest Bid</th>
                     <th>Action</th>
                 </tr>
             </thead>
             <tbody>
                 <?php
                 include('connect.php');
-                // Join query to get highest bid amount for each bid
-                $sqlSelect = "SELECT a.*, COALESCE(MAX(b.bid_amount), 0) as highest_bid 
+                $sqlSelect = "SELECT a.*, COALESCE(MAX(h.final_bid_amount), 0) as highest_bid 
                              FROM agent_bid_create_db a 
-                             LEFT JOIN buyer_bid_db b ON a.bid_id = b.bid_id 
+                             LEFT JOIN bid_history_db h ON a.bid_id = h.bid_id 
                              WHERE a.bid_end_date >= CURDATE()
                              GROUP BY a.bid_id";
+                             
                 $result = mysqli_query($conn, $sqlSelect);
                 while ($data = mysqli_fetch_array($result)) {
                     $highest_bid = $data['highest_bid'] > 0 ? $data['highest_bid'] : 'No bids yet';
@@ -45,13 +62,12 @@
                         <td><?php echo $data['crop_id']; ?></td>
                         <td><?php echo $data['farmer_id']; ?></td>
                         <td><?php echo $data['min_bid_price']; ?></td>
+                        <td><?php echo $highest_bid; ?></td>
                         <td><?php echo $data['quantity']; ?></td>
                         <td><?php echo $data['location']; ?></td>
                         <td><?php echo $data['bid_end_date']; ?></td>
-                        <td><?php echo $highest_bid; ?></td>
                         <td>
-                            <a href="buyer_bid_view.php?id=<?php echo $data['bid_id']; ?>" 
-                               class="btn btn-primary">Place Bid</a>
+                            <a href="buyer_bid_view.php?id=<?php echo $data['bid_id']; ?>" class="btn btn-success">Place Bid</a>
                         </td>
                     </tr>
                 <?php

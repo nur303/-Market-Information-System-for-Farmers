@@ -97,11 +97,11 @@
                                     <li class="list-group-item d-flex justify-content-between">
                                         <strong>Age:</strong>
                                         <span>22</span>
-                                    </li>
+                                    <!-- </li>
                                     <li class="list-group-item d-flex justify-content-between">
                                         <strong>Total Number of Analysis:</strong>
                                         <span class="badge bg-success rounded-pill fs-6"><?php echo $total_analysis; ?></span>
-                                    </li>
+                                    </li> -->
                                 </ul>
                             </div>
                         </div>

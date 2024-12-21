@@ -68,12 +68,17 @@
                     <li class="nav-item">
                         <a class="nav-link text-white" href="agent_market_view.php">Market View</a>
                     </li>
-                    <li class="nav-item">
+                    <!-- <li class="nav-item">
                         <a class="nav-link text-white" href="agent_graph.php">Graph View</a>
-                    </li>
+                    </li> -->
                     <li class="nav-item">
                         <a class="nav-link text-white" href="bid_history.php">Bid_History</a>
                     </li>
+
+                    <!-- <li class="nav-item">
+                        <a class="nav-link text-white" href="bid_history.php">View Buyer Directory</a>
+                    </li> -->
+
                     <li class="nav-item">
                         <a class="nav-link text-white" href="index.php">Sign Out</a>
                     </li>

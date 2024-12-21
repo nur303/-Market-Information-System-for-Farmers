@@ -81,7 +81,7 @@
     <tbody>
         <?php
         include('market_analyst_connect.php');
-        $sqlSelect = "SELECT * FROM books";
+        $sqlSelect = "SELECT * FROM analysis_db";
         $result = mysqli_query($conn, $sqlSelect);
         while ($data = mysqli_fetch_array($result)) {
             ?>
