@@ -45,6 +45,10 @@ public class Agent_Controller {
     public String buyer() {
         return "buyer_dashboard";
     }
+    @GetMapping("/agent_dashboard")
+    public String Agent_dashboard() {
+        return "agent_dashBoard";
+    }
 
     @ModelAttribute("locations")
     public List<Area_T> allLocations() {
