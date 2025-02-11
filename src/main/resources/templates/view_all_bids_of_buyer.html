@@ -22,6 +22,7 @@
         <a href="/analyst_index">Sign Out</a>
         <a href="/agent_All_Harvest" >Harvest Information Table</a>
         <a href="/agent_bids_info" class="active">Bids Information</a>
+
     </aside>
 
     <!-- Main Content -->
@@ -92,7 +93,7 @@
     // Populate the table with harvest and bids information
     function populateBidsInfoTable(info) {
         const tableBody = document.getElementById('bidsInfoTable');
-        tableBody.innerHTML = ''; // Clear table body before adding rows
+        // Clear table body before adding rows
 
 
             const row = document.createElement('tr');

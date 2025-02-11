@@ -47,7 +47,7 @@ public class Agent_Controller {
     }
     @GetMapping("/agent_dashboard")
     public String Agent_dashboard() {
-        return "agent_dashBoard";
+        return "Agent_dashBoard";
     }
 
     @ModelAttribute("locations")

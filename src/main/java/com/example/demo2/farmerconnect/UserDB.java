@@ -107,5 +107,21 @@ public class UserDB {
         }
         return allDataList;
     }
-
+    public List<User_T> showAllUserData() {
+        List<User_T> allDataList = new ArrayList<>();
+        String sql = "SELECT userID,user_name,phone_umber FROM TARGET_USER_T";
+        try (PreparedStatement ps = conn.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
+            while (rs.next()) {
+                User_T user = new User_T(); // Instantiate the User_T object
+                user.setUserID(rs.getInt("userID"));
+                user.setUserName(rs.getString("user_name"));
+                user.setPhoneNumber(rs.getInt("phone_number"));// Set the farmerID
+                allDataList.add(user); // Add the user to the list
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return allDataList;
+    }
 }

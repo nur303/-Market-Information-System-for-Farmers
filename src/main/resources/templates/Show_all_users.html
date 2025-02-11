@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Harvest and Bids Information</title>
+  <link rel="stylesheet" href="analyst.css">
+  <style>
+    th {
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <a href="/analyst_dashboard">Analyst Dashboard</a>
+
+    <a href="/user_ulala" class="active">Show User data</a>
+
+  </aside>
+
+  <!-- Main Content -->
+  <main class="main-content">
+    <h1>Harvest and Bids Information</h1>
+    <table border="1">
+      <thead>
+      <tr>
+        <th>User ID</th>
+        <th>User Name</th>
+        <th>User phone Number</th>
+
+      </tr>
+      </thead>
+      <tbody id="bidsInfoTable">
+      <!-- Rows will be dynamically added here -->
+      </tbody>
+    </table>
+  </main>
+</div>
+
+<script>
+  // Fetch and render harvest and bids information on page load
+  async function fetchAndRenderBidsInfo() {
+    try {
+      const response = await fetch('/all_user_data'); // Adjust the endpoint as needed
+      if (!response.ok) {
+        throw new Error('Failed to fetch harvest and bids information');
+      }
+
+      const bidsInfo = await response.json();
+      inputListOfBidData(bidsInfo);
+    } catch (error) {
+      console.error('Error fetching harvest and bids information:', error);
+      alert('An error occurred while fetching harvest and bids information.');
+    }
+  }
+  window.onload = fetchAndRenderBidsInfo;
+  function inputListOfBidData(bidList) {
+    const tableBody = document.getElementById('bidsInfoTable');
+    tableBody.innerHTML = ''; // Clear table body once before appending rows
+
+    bidList.forEach((bid) => {
+      populateBidsInfoTable(bid); // Call inputHarvestInfo for each harvest
+    });
+  }
+
+  // Populate the table with harvest and bids information
+  function populateBidsInfoTable(info) {
+    const tableBody = document.getElementById('bidsInfoTable');
+    // Clear table body before adding rows
+
+
+    const row = document.createElement('tr');
+    row.innerHTML = `
+                <td>${info.bidID}</td>
+                <td>${info.buyerID}</td>
+                <td>${info.buyerName}</td>
+                <td>${info.buyerPhone}</td>
+                <td>${info.buyerLocation}</td>
+
+                <td>${info.biddingPrice}</td>
+                <td>${info.timeOfBidding}</td>
+                <td>${info.dateOfBidding}</td>
+
+                <td>${info.harvestDate}</td>
+                <td>${info.harvestID}</td>
+                <td>${info.cropName}</td>
+                <td>${info.harvestLocation}</td>
+
+                <td>${info.farmerID}</td>
+                <td>${info.farmerName}</td>
+                <td>${info.farmerPhone}</td>
+                <td>${info.farmerLocation}</td>
+
+                <td>${info.inStock}</td>
+                <td>${info.quantity}</td>
+                <td>${info.quality}</td>
+                <td>${info.askingPrice}</td>
+            `;
+    tableBody.appendChild(row);
+
+  }
+</script>
+</body>
+</html>
